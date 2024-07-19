@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  // Navigate,
+} from "react-router-dom";
+import Nav from "./components/Nav";
+import Home from "./components/Home/Home";
+import Info from "./components/Info/Info";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Account from "./components/Account/Account";
+import Game from "./components/Game/Game";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [loggedIn, setLoggedIn] = useState(
+    window.sessionStorage.getItem("Token") ? true : false
+  );
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="header">
+        <h1>Dungeon Crawler</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Router>
+        <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+        <Routes>
+          <Route path="/" element={<Home loggedIn={loggedIn} />} />
+          <Route path="/info" element={<Info />} />
+          <Route path="/game" element={<Game loggedIn={loggedIn} />} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+          <Route
+            path="/registration"
+            element={<Register setLoggedIn={setLoggedIn} />}
+          />
+          <Route path="/:username" element={<Account loggedIn={loggedIn} />} />
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
