@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useLoginMutation } from "./LoginSlice";
+import { useLoginMutation } from "./LoginSlice";
 
 export default function Login({ setLoggedIn }) {
-  // const [loginUser] = useLoginMutation();
+  const [loginUser] = useLoginMutation();
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -27,7 +27,7 @@ export default function Login({ setLoggedIn }) {
       console.log("Success response:", success);
       if (success) {
         setLoggedIn(true);
-        sessionStorage.setItem("CurrentUser", form.email);
+        sessionStorage.setItem("CurrentUser", form.username);
         navigate("/");
       }
     } catch (error) {
@@ -45,14 +45,13 @@ export default function Login({ setLoggedIn }) {
         <h2 className="form-header">Login</h2>
         <form onSubmit={submit}>
           <div className="form-group">
-            <label>Email address</label>
+            <label>Username</label>
             <input
-              type="email"
+              type="text"
               className="form-control"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              name="email"
-              value={form.email}
+              placeholder="Enter username"
+              name="username"
+              value={form.username}
               onChange={updateForm}
             />
           </div>

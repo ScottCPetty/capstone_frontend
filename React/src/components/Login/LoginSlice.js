@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userApi } from "../../api/userApi";
+import { api } from "../../api/api";
 
-const loginApi = userApi.injectEndpoints({
+const loginApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -27,7 +27,7 @@ const loginSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(userApi.endpoints.login.matchFulfilled, storeToken);
+    builder.addMatcher(api.endpoints.login.matchFulfilled, storeToken);
   },
 });
 

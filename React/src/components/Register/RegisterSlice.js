@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userApi } from "../../api/userApi";
+import { api } from "../../api/api";
 
-const registerApi = userApi.injectEndpoints({
+const registerApi = api.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (credentials) => ({
@@ -16,7 +16,7 @@ const registerApi = userApi.injectEndpoints({
 });
 
 const storeToken = (state, { payload }) => {
-  window.sessionStorage.setItem("Token", payload.token);
+  window.sessionStorage.setItem("Token", payload);
 };
 
 const registerSlice = createSlice({
@@ -27,7 +27,7 @@ const registerSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(userApi.endpoints.register.matchFulfilled, storeToken);
+    builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
   },
 });
 

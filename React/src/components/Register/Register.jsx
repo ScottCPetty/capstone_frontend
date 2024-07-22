@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useRegisterMutation } from "./RegistrationSlice";
+import { useRegisterMutation } from "./RegisterSlice";
 
 export default function Register({ setLoggedIn }) {
-  // const [registerUser] = useRegisterMutation();
+  const [registerUser] = useRegisterMutation();
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -45,37 +45,14 @@ export default function Register({ setLoggedIn }) {
       <div className="section">
         <h2 className="form-header">Register</h2>
         <form onSubmit={submit}>
-          <div className="form-group">
-            <label>First Name</label>
+        <div className="form-group">
+            <label>Username</label>
             <input
               type="text"
               className="form-control"
-              placeholder="First Name"
-              name="firstName"
-              value={form.firstName}
-              onChange={updateForm}
-            />
-          </div>
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Last Name"
-              name="lastName"
-              value={form.lastName}
-              onChange={updateForm}
-            />
-          </div>
-          <div className="form-group">
-            <label>Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              name="email"
-              value={form.email}
+              placeholder="Enter username"
+              name="username"
+              value={form.username}
               onChange={updateForm}
             />
           </div>
