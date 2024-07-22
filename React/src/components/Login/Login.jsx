@@ -40,45 +40,49 @@ export default function Login({ setLoggedIn }) {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-header">Login</h2>
-      <form onSubmit={submit}>
-        <div className="form-group">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-            name="email"
-            value={form.email}
-            onChange={updateForm}
-          />
+    <div className="background-container">
+      <div className="section">
+        <h2 className="form-header">Login</h2>
+        <form onSubmit={submit}>
+          <div className="form-group">
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              name="email"
+              value={form.email}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password"
+              name="password"
+              value={form.password}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-button">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </form>
+        <div className="redirect-container">
+          <h3>Not Signed In?</h3>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={toRegistrationRedirect}
+          >
+            Click Here to Register!
+          </button>
         </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            name="password"
-            value={form.password}
-            onChange={updateForm}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-      <div className="redirect-container">
-        <h3>Not Signed In?</h3>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={toRegistrationRedirect}
-        >
-          Click Here to Register!
-        </button>
       </div>
     </div>
   );
