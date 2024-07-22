@@ -5,7 +5,7 @@ import {
   Route,
   // Navigate,
 } from "react-router-dom";
-import Nav from "./components/Nav";
+import Navigation from "./components/Nav";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
@@ -23,7 +23,7 @@ function App() {
         <h1>Dungeon Delve</h1>
       </div>
       <Router>
-        <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+        <Navigation loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
           <Route path="/game" element={<Game loggedIn={loggedIn} />} />
