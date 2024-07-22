@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home/Home";
-import Info from "./components/Info/Info";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Account from "./components/Account/Account";
@@ -21,13 +20,12 @@ function App() {
   return (
     <>
       <div className="header">
-        <h1>Dungeon Crawler</h1>
+        <h1>Dungeon Delve</h1>
       </div>
       <Router>
         <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
-          <Route path="/info" element={<Info />} />
           <Route path="/game" element={<Game loggedIn={loggedIn} />} />
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
           <Route

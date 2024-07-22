@@ -41,67 +41,71 @@ export default function Register({ setLoggedIn }) {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-header">Register</h2>
-      <form onSubmit={submit}>
-        <div className="form-group">
-          <label>First Name</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="First Name"
-            name="firstName"
-            value={form.firstName}
-            onChange={updateForm}
-          />
+    <div className="background-container">
+      <div className="section">
+        <h2 className="form-header">Register</h2>
+        <form onSubmit={submit}>
+          <div className="form-group">
+            <label>First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="First Name"
+              name="firstName"
+              value={form.firstName}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Last Name"
+              name="lastName"
+              value={form.lastName}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-group">
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              name="email"
+              value={form.email}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password"
+              name="password"
+              value={form.password}
+              onChange={updateForm}
+            />
+          </div>
+          <div className="form-button">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </form>
+        <div className="redirect-container">
+          <h3>Already Have an Account?</h3>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={toLoginRedirect}
+          >
+            Click Here to Sign In!
+          </button>
         </div>
-        <div className="form-group">
-          <label>Last Name</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Last Name"
-            name="lastName"
-            value={form.lastName}
-            onChange={updateForm}
-          />
-        </div>
-        <div className="form-group">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-            name="email"
-            value={form.email}
-            onChange={updateForm}
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            name="password"
-            value={form.password}
-            onChange={updateForm}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-      <div className="redirect-container">
-        <h3>Already Have an Account?</h3>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={toLoginRedirect}
-        >
-          Click Here to Sign In!
-        </button>
       </div>
     </div>
   );

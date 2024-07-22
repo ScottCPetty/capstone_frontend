@@ -33,11 +33,6 @@ export default function Nav({ loggedIn, setLoggedIn }) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/info" className="nav-link" href="#">
-                Info
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link to="/game" className="nav-link" href="#">
                 Game
               </Link>

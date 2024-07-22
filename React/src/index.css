@@ -1,14 +1,18 @@
 body {
-  font-family: Georgia, serif;
+  font-family: Garamond;
   background-color: #f8f8f8;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 .header {
   text-align: center;
-  background-color: lightblue;
+  color: antiquewhite;
+  background-color: black;
+  background-image: url("./assets/dungeon.jpg");
   padding: 5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Navbar */
@@ -30,6 +34,15 @@ body {
 
 .form-group {
   padding: 8px;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: left;
+}
+
+.form-button {
+  display: flex;
+  justify-content: right;
+  margin-right: 11%;
 }
 
 .redirect-container {
@@ -42,20 +55,24 @@ body {
 }
 
 /* Home */
-.users-header {
-  margin-top: 10px;
-  margin-left: 100px;
-  font-weight: bold;
+.background-container {
+  background-image: url("./assets/dungeon3.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
-.users-list {
-  display: flex;
-  flex-direction: column;
+.section {
+  height: 100vh;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: rgba(56, 56, 56, 0.897);
+  display: block;
   justify-content: center;
-  padding: 10px;
-  margin-left: 200px;
-}
-
-.user-container {
-  padding: 15px;
+  align-items: center;
+  color: antiquewhite;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid black;
+  box-shadow: 0 10px 12px black;
 }
