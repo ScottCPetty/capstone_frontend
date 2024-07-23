@@ -27,7 +27,7 @@ const adminApi = api.injectEndpoints({
     }), // end of deleteUser
     overrideExisting: false,
   }), // end of endpoints builder
-}); // end of const adminApi
+});
 
 const adminSlice = createSlice({
   name: "admin",
