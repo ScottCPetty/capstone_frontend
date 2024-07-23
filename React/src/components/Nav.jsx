@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
 
-const Navigation = ({ loggedIn, setLoggedIn }) => {
+const Navigation = ({ loggedIn, setLoggedIn, isAdmin, setAdmin }) => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
     window.sessionStorage.removeItem("Token");
-    window.sessionStorage.removeItem("CurrentUser");
     setLoggedIn(false);
-    navigate("/login");
+    setAdmin(false);
+    navigate("/");
   };
 
   return (
@@ -45,6 +45,11 @@ const Navigation = ({ loggedIn, setLoggedIn }) => {
                 Register
               </Nav.Link>
             </>
+          )}
+          {isAdmin && (
+            <Nav.Link as={Link} to="/admin" className="nav-link">
+              Admin Panel
+            </Nav.Link>
           )}
         </Nav>
       </Navbar.Collapse>

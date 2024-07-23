@@ -27,8 +27,7 @@ export default function Login({ setLoggedIn }) {
       console.log("Success response:", success);
       if (success) {
         setLoggedIn(true);
-        sessionStorage.setItem("CurrentUser", form.username);
-        navigate("/");
+        navigate("/account");
       }
     } catch (error) {
       console.log(error);

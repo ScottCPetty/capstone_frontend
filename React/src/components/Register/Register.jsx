@@ -7,9 +7,7 @@ export default function Register({ setLoggedIn }) {
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -28,7 +26,6 @@ export default function Register({ setLoggedIn }) {
       success = await registerUser(form).unwrap();
       if (success) {
         setLoggedIn(true);
-        sessionStorage.setItem("CurrentUser", form.email);
         navigate("/");
       }
     } catch (error) {
@@ -45,7 +42,7 @@ export default function Register({ setLoggedIn }) {
       <div className="section">
         <h2 className="form-header">Register</h2>
         <form onSubmit={submit}>
-        <div className="form-group">
+          <div className="form-group">
             <label>Username</label>
             <input
               type="text"
