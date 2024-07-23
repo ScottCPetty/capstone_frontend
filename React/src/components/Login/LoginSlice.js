@@ -24,6 +24,7 @@ const loginSlice = createSlice({
   initialState: {
     user: {},
     token: "",
+    isAdmin: false,
   },
   reducers: {},
   extraReducers: (builder) => {
