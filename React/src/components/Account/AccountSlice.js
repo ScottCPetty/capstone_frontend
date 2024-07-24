@@ -14,6 +14,18 @@ const accountApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
+    updateUser: builder.mutation({
+      query: ({ userId, ...form }) => ({
+        url: `/api/user/${userId}`,
+        method: "PUT",
+        body: form.form,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -29,4 +41,4 @@ const accountSlice = createSlice({
 });
 
 export default accountSlice.reducer;
-export const { useAccountQuery } = accountApi;
+export const { useAccountQuery, useUpdateUserMutation } = accountApi;
