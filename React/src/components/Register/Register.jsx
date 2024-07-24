@@ -66,7 +66,7 @@ export default function Register({ setLoggedIn }) {
           </div>
           <div className="form-button">
             <button type="submit" className="btn btn-primary">
-              Submit
+              Register
             </button>
           </div>
         </form>

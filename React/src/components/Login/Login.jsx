@@ -67,7 +67,7 @@ export default function Login({ setLoggedIn }) {
           </div>
           <div className="form-button">
             <button type="submit" className="btn btn-primary">
-              Submit
+              Login
             </button>
           </div>
         </form>

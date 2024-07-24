@@ -23,6 +23,11 @@ const Navigation = ({ loggedIn, setLoggedIn, isAdmin, setAdmin }) => {
           <Nav.Link as={Link} to="/game" className="nav-link">
             Game
           </Nav.Link>
+          {isAdmin && (
+            <Nav.Link as={Link} to="/admin" className="nav-link">
+              Admin Panel
+            </Nav.Link>
+          )}
           {loggedIn ? (
             <>
               <Nav.Link as={Link} to="/account" className="nav-link">
@@ -45,11 +50,6 @@ const Navigation = ({ loggedIn, setLoggedIn, isAdmin, setAdmin }) => {
                 Register
               </Nav.Link>
             </>
-          )}
-          {isAdmin && (
-            <Nav.Link as={Link} to="/admin" className="nav-link">
-              Admin Panel
-            </Nav.Link>
           )}
         </Nav>
       </Navbar.Collapse>
