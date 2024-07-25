@@ -28,7 +28,7 @@
   overflow-y: auto;
   border: 1px solid #000;
   padding: 10px;
-  max-width: 300px;
+  width: 250px;
 }
 
 .game-wrapper #log {
