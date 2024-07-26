@@ -20,7 +20,7 @@ export default function Login({ setLoggedIn }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log("This is the form:", form);
+    // console.log("This is the form:", form);
     try {
       let success = false;
       success = await loginUser(form).unwrap();
