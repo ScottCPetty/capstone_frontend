@@ -53,6 +53,7 @@ body {
   font-weight: bold;
 }
 
+/* Account */
 .account-image {
   margin: 4%;
   border-radius: 1%;
@@ -70,6 +71,46 @@ body {
 
 .user-buttons button {
   margin: 5px;
+}
+
+/* Admin */
+.table-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+table td {
+  background-color: #fff;
+  color: #333;
+}
+
+button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c82333;
 }
 
 /* Home */
