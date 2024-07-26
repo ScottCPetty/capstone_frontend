@@ -1,4 +1,11 @@
+import { useFetchUsersQuery } from "./HomeSlice";
+
 export default function Home() {
+  const { data: users, error, isLoading } = useFetchUsersQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading users</div>;
+
   return (
     <div className="background-container">
       <div className="section">
@@ -16,6 +23,26 @@ export default function Home() {
       </div>
       <div className="section">
         <h1>Rules</h1>
+      </div>
+      <div className="section" id="scoreboard">
+        <h1>Scoreboard</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.username}</td>
+                  <td>{user.score}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

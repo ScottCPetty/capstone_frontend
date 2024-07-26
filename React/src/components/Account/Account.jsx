@@ -17,7 +17,7 @@ export default function Account({ loggedIn, setAdmin }) {
       if (loggedIn && isSuccess && data) {
         refetch();
         setUser(data);
-        console.log(user);
+        // console.log(user);
         if (user && user.isAdmin === true) {
           setAdmin(true);
         }
