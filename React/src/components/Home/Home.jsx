@@ -18,9 +18,6 @@ export default function Home() {
           warp the horrid place...
         </h4>
       </div>
-      <div className="section">
-        <h1>Rules</h1>
-      </div>
       <div className="section" id="scoreboard">
         <h1>Scoreboard</h1>
         <table>

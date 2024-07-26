@@ -26,7 +26,6 @@ const Navigation = ({ loggedIn, setLoggedIn }) => {
     window.sessionStorage.removeItem("Token");
     window.sessionStorage.removeItem("isAdmin");
     setLoggedIn(false);
-    refetch();
     navigate("/");
   };
 

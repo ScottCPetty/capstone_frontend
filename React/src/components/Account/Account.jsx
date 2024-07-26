@@ -15,12 +15,8 @@ export default function Account({ loggedIn }) {
   useEffect(() => {
     const fetchData = async () => {
       if (loggedIn && isSuccess && data) {
-        refetch();
         setUser(data);
-        // console.log(user);
-        // if (user && user.isAdmin === true) {
-        //   sessionStorage.setItem("isAdmin", true);
-        // }
+        refetch();
       }
     };
 
@@ -63,7 +59,7 @@ export default function Account({ loggedIn }) {
   return (
     <div className="background-container">
       <div className="section">
-        {loggedIn && isSuccess && user && (
+        {user && (
           <div>
             <h1>{`Welcome, ${user.username}!`}</h1>
             <img
@@ -124,7 +120,7 @@ export default function Account({ loggedIn }) {
                 className="btn btn-primary"
                 onClick={() => setEdit(true)}
               >
-                Edit User
+                Edit My Account
               </button>
             )}
           </div>

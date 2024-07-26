@@ -1,15 +1,17 @@
 import { useFetchUsersQuery, useDeleteUserMutation } from "./AdminSlice";
 
 const Admin = (isAdmin) => {
-  const { data: users, error, isLoading } = useFetchUsersQuery();
+  const { data: users, refetch } = useFetchUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
 
-  const handleDelete = (userId) => {
-    deleteUser(userId);
+  const handleDelete = async (userId) => {
+    try {
+      await deleteUser(userId);
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading users</div>;
 
   return (
     isAdmin && (
@@ -25,37 +27,34 @@ const Admin = (isAdmin) => {
                   <th>High Score</th>
                   <th>Created At</th>
                   <th>Updated At</th>
-                  <th>isAdmin</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users &&
-                  users.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.username}</td>
-                      <td>{user.score}</td>
-                      <td>{user.createdAt}</td>
-                      <td>{user.updatedAt}</td>
-                      <td>{user.isAdmin ? "true" : "false"}</td>
+                  users
+                    .filter((user) => user.username !== "admin")
+                    .map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>{user.score}</td>
+                        <td>{user.createdAt}</td>
+                        <td>{user.updatedAt}</td>
 
-                      <td>
-                        <button type="button" className="btn btn-primary">
-                          Edit
-                        </button>
-                        {user.isAdmin == false && (
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => handleDelete(user.id)}
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                        <td>
+                          {user.isAdmin == false && (
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(user.id)}
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>
