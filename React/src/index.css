@@ -119,11 +119,10 @@ button:hover {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .section {
-  min-height: 30vh;
-  max-height: 50%;
   margin-left: 10%;
   margin-right: 10%;
   padding: 3%;
