@@ -388,10 +388,6 @@ function useSavedPoints() {
   updateGameInfo();
 }
 
-function getCurrentScore() {
-  return player.score;
-}
-
 function updateScore() {
   player.score = player.level * player.floorsPassed * 10;
   document.getElementById("current-score").innerText = player.score;

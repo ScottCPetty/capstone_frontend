@@ -1,10 +1,7 @@
 import { useFetchUsersQuery } from "./HomeSlice";
 
 export default function Home() {
-  const { data: users, error, isLoading } = useFetchUsersQuery();
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading users</div>;
+  const { data: users } = useFetchUsersQuery();
 
   return (
     <div className="background-container">
