@@ -1,8 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 25; // Reduced tile size to fit the 80x80 dungeon
-const tilesX = 25;
-const tilesY = 25;
+const tilesX = 5;
+const tilesY = 5;
 canvas.width = tilesX * tileSize;
 canvas.height = tilesY * tileSize;
 
@@ -18,6 +18,8 @@ let player = {
   damageMax: 12,
   dodge: 0,
   savedPoints: 0,
+  floorsPassed: 0,
+  score: 0,
 };
 let currentEnemy = null;
 let steps = 0;
@@ -197,14 +199,18 @@ function movePlayer(dx, dy) {
     player.y = newY;
     steps++;
     if (newX === entranceX && newY === entranceY) {
-      player.xp += 50;
       addCombatLog("You found the entrance to the next floor!");
+      player.xp += 50;
+      player.floorsPassed++;
+      updateGameInfo();
       // Handle moving to the next floor
       // For simplicity, just reset the player's position and generate a new dungeon
       player.x = 0;
       player.y = 0;
       generateDungeon();
       drawPlayer();
+      levelUpCheck();
+      updateScore();
       return;
     }
     checkEncounter();
@@ -324,7 +330,10 @@ function levelUpCheck() {
       let choice = prompt(
         `You leveled up! You have ${points} points to spend. Choose to increase HP, DMG, or DOD.`
       );
-      if (choice.toLowerCase() == "hp") {
+      if (choice === null) {
+        player.savedPoints += points;
+        points = 0;
+      } else if (choice.toLowerCase() == "hp") {
         player.maxHp += 5;
         player.hp += 5; // Increase current HP as well
         points--;
@@ -335,15 +344,13 @@ function levelUpCheck() {
       } else if (choice.toLowerCase() == "dod") {
         player.dodge += 5;
         points--;
-      } else if (choice.toLowerCase() == "save") {
-        player.savedPoints += points;
-        points = 0;
       } else {
         alert("Invalid choice");
       }
     }
     updateGameInfo();
     levelUpCheck(); // Check again in case the player has enough XP to level up again
+    updateScore();
   }
 }
 
@@ -378,6 +385,11 @@ function useSavedPoints() {
   }
   player.savedPoints = 0; // Reset saved points after use
   updateGameInfo();
+}
+
+function updateScore() {
+  player.score = player.level * player.floorsPassed * 10;
+  document.getElementById("current-score").innerText = player.score;
 }
 
 function resetGame() {
