@@ -81,7 +81,8 @@ body {
 }
 
 .section {
-  height: 100vh;
+  min-height: 20vh;
+  max-height: 50%;
   margin-left: 10%;
   margin-right: 10%;
   padding: 3%;
@@ -98,4 +99,9 @@ body {
 
 .section button {
   margin-top: 2%;
+}
+
+#scoreboard {
+  display: flex;
+  flex-direction: column;
 }
