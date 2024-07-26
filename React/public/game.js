@@ -325,6 +325,7 @@ function levelUpCheck() {
   if (player.xp >= requiredXp) {
     player.level++;
     player.xp -= requiredXp; // Remove the XP required for the level up
+    updateScore()
     let points = 1;
     while (points > 0) {
       let choice = prompt(
@@ -387,9 +388,17 @@ function useSavedPoints() {
   updateGameInfo();
 }
 
+function getCurrentScore() {
+  return player.score;
+}
+
 function updateScore() {
   player.score = player.level * player.floorsPassed * 10;
   document.getElementById("current-score").innerText = player.score;
+  const event = new CustomEvent("scoreUpdated", {
+    detail: { score: player.score },
+  });
+  window.dispatchEvent(event);
 }
 
 function resetGame() {
@@ -419,8 +428,8 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "s" || e.code === "ArrowDown") movePlayer(0, 1);
   if (e.key === "a" || e.code === "ArrowLeft") movePlayer(-1, 0);
   if (e.key === "d" || e.code === "ArrowRight") movePlayer(1, 0);
-  if (e.key === "e") usePotion();
-  if (e.key === " ") attackEnemy();
+  if (e.key === "r") usePotion();
+  if (e.key === "e") attackEnemy();
   if (e.key === "p") useSavedPoints();
 });
 

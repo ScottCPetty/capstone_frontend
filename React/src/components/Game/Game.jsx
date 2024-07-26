@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Game = () => {
+  const [currentScore, setCurrentScore] = useState(0);
+
   useEffect(() => {
     fetch("/game.html")
       .then((response) => response.text())
@@ -18,9 +20,21 @@ const Game = () => {
         link.href = "/game.css";
         document.head.appendChild(link);
       });
+    const handleScoreUpdate = (event) => {
+      setCurrentScore(event.detail.score);
+    };
+    window.addEventListener("scoreUpdated", handleScoreUpdate);
+    return () => {
+      window.removeEventListener("scoreUpdated", handleScoreUpdate);
+    };
   }, []);
 
-  return <div id="game-container" />;
+  return (
+    <div>
+      <h1>Current Score: {currentScore}</h1>
+      <div id="game-container" />
+    </div>
+  );
 };
 
 export default Game;
