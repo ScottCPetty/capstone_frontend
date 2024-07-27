@@ -4,6 +4,7 @@ import { useRegisterMutation } from "./RegisterSlice";
 
 export default function Register({ setLoggedIn }) {
   const [registerUser] = useRegisterMutation();
+  const [registerError, setRegisterError] = useState(false);
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -21,6 +22,7 @@ export default function Register({ setLoggedIn }) {
   const submit = async (e) => {
     e.preventDefault();
     // console.log("This is the form:", form);
+    setRegisterError(false);
     try {
       let success = false;
       success = await registerUser(form).unwrap();
@@ -30,6 +32,7 @@ export default function Register({ setLoggedIn }) {
       }
     } catch (error) {
       console.log(error);
+      setRegisterError(true);
     }
   };
 
@@ -70,6 +73,11 @@ export default function Register({ setLoggedIn }) {
             </button>
           </div>
         </form>
+        {registerError && (
+          <h1 style={{ color: "red", marginTop: "10px" }}>
+            Username is already taken.
+          </h1>
+        )}
         <div className="redirect-container">
           <h3>Already Have an Account?</h3>
           <button

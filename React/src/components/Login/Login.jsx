@@ -4,6 +4,7 @@ import { useLoginMutation } from "./LoginSlice";
 
 export default function Login({ setLoggedIn }) {
   const [loginUser] = useLoginMutation();
+  const [loginError, setLoginError] = useState(false)
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -21,6 +22,7 @@ export default function Login({ setLoggedIn }) {
   const submit = async (e) => {
     e.preventDefault();
     // console.log("This is the form:", form);
+    setLoginError(false);
     try {
       let success = false;
       success = await loginUser(form).unwrap();
@@ -31,6 +33,7 @@ export default function Login({ setLoggedIn }) {
       }
     } catch (error) {
       console.log(error);
+      setLoginError(true);
     }
   };
 
@@ -71,6 +74,11 @@ export default function Login({ setLoggedIn }) {
             </button>
           </div>
         </form>
+        {loginError && (
+          <h1 style={{ color: "red", marginTop: "10px" }}>
+            Incorrect username and/or password.
+          </h1>
+        )}
         <div className="redirect-container">
           <h3>Not Signed In?</h3>
           <button
