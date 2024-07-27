@@ -2,6 +2,9 @@ import { useFetchUsersQuery } from "./HomeSlice";
 
 export default function Home() {
   const { data: users } = useFetchUsersQuery();
+  const sortedUsers = users
+    ? [...users].sort((a, b) => b.score - a.score).slice(0, 10)
+    : [];
 
   return (
     <div className="background-container">
@@ -29,7 +32,7 @@ export default function Home() {
           </thead>
           <tbody>
             {users &&
-              users.map((user) => (
+              sortedUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.username}</td>
                   <td>{user.score}</td>
