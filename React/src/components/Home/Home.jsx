@@ -32,12 +32,14 @@ export default function Home() {
           </thead>
           <tbody>
             {users &&
-              sortedUsers.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.username}</td>
-                  <td>{user.score}</td>
-                </tr>
-              ))}
+              sortedUsers
+                .filter((user) => user.isAdmin == false)
+                .map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.username}</td>
+                    <td>{user.score}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
