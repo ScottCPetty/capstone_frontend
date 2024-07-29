@@ -12,6 +12,7 @@ import Register from "./components/Register/Register";
 import Account from "./components/Account/Account";
 import Admin from "./components/Admin/Admin";
 import Game from "./components/Game/Game";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
@@ -35,6 +36,7 @@ function App() {
           />
           <Route path="/account" element={<Account loggedIn={loggedIn} />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>
