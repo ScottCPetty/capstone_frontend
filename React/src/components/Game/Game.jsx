@@ -1,10 +1,28 @@
-import { useEffect, useState } from "react";
-import { useAccountQuery, useUpdateUserMutation } from "./GameSlice";
+import { useEffect, useState, useCallback } from "react";
+import { useGameQuery, useScoreMutation } from "./GameSlice";
 
 const Game = () => {
   const [currentScore, setCurrentScore] = useState(0);
-  const { data: userData, refetch } = useAccountQuery();
-  const [updateUser] = useUpdateUserMutation();
+  const { data: userData, refetch } = useGameQuery();
+  const [updateUser] = useScoreMutation();
+
+  const handleScoreUpdate = useCallback(
+    async (event) => {
+      const newScore = event.detail.score;
+      setCurrentScore(newScore);
+      if (userData && newScore > userData.score) {
+        try {
+          await updateUser({ score: newScore }).unwrap();
+          console.log("High score updated!");
+          await refetch();
+        } catch (error) {
+          console.error("Failed to update high score:", error);
+        }
+      }
+    },
+    [userData, updateUser, refetch]
+  );
+
   useEffect(() => {
     fetch("/game.html")
       .then((response) => response.text())
@@ -20,34 +38,19 @@ const Game = () => {
         link.href = "/game.css";
         document.head.appendChild(link);
       });
-    const handleScoreUpdate = (event) => {
-      const newScore = event.detail.score;
-      setCurrentScore(newScore);
-    };
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("scoreUpdated", handleScoreUpdate);
     return () => {
       window.removeEventListener("scoreUpdated", handleScoreUpdate);
     };
-  }, []);
-  useEffect(() => {
-    if (userData && currentScore > userData.score) {
-      console.log("Updating User Score:", {
-        userId: userData.id,
-        score: currentScore,
-      });
-      updateUser({ userId: userData.id, score: currentScore })
-        .then(() => {
-          // console.log('User score updated successfully');
-          return refetch();
-        })
-        .catch((err) => console.error("Error updating user score:", err));
-    }
-  }, [currentScore, userData, updateUser, refetch]);
-  // console.log(userData)
+  }, [handleScoreUpdate]);
+
   return (
     <div>
-      {/* <h1>High Score: {userData?.score || 0}</h1>
-      <h1>Current Score: {currentScore}</h1> */}
+      <h1>High Score: {userData?.score}</h1>
+      <h1>Current Score: {currentScore}</h1>
       <div id="game-container" />
     </div>
   );

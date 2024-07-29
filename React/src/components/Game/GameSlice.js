@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { api } from "../../api/api";
 
-const accountApi = api.injectEndpoints({
+const gameApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    account: builder.query({
+    game: builder.query({
       query: () => ({
         url: "/api/user/me",
         method: "GET",
@@ -14,9 +14,9 @@ const accountApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
-    updateUser: builder.mutation({
-      query: ({ userId, score }) => ({
-        url: `/api/user/${userId}`,
+    score: builder.mutation({
+      query: ({ score }) => ({
+        url: "/api/user/me",
         method: "PUT",
         body: { score },
         headers: {
@@ -29,16 +29,16 @@ const accountApi = api.injectEndpoints({
   }),
 });
 
-const accountSlice = createSlice({
-  name: "account",
+const gameSlice = createSlice({
+  name: "game",
   initialState: {
     user: {},
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(api.endpoints.account.matchFulfilled);
+    builder.addMatcher(api.endpoints.game.matchFulfilled);
   },
 });
 
-export default accountSlice.reducer;
-export const { useAccountQuery, useUpdateUserMutation } = accountApi;
+export default gameSlice.reducer;
+export const { useGameQuery, useScoreMutation } = gameApi;
