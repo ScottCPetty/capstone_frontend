@@ -2,6 +2,9 @@ import { useFetchUsersQuery } from "./HomeSlice";
 
 export default function Home() {
   const { data: users } = useFetchUsersQuery();
+  const sortedUsers = users
+    ? [...users].sort((a, b) => b.score - a.score).slice(0, 10)
+    : [];
 
   return (
     <div className="background-container">
@@ -18,9 +21,6 @@ export default function Home() {
           warp the horrid place...
         </h4>
       </div>
-      <div className="section">
-        <h1>Rules</h1>
-      </div>
       <div className="section" id="scoreboard">
         <h1>Scoreboard</h1>
         <table>
@@ -32,12 +32,14 @@ export default function Home() {
           </thead>
           <tbody>
             {users &&
-              users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.username}</td>
-                  <td>{user.score}</td>
-                </tr>
-              ))}
+              sortedUsers
+                .filter((user) => user.isAdmin == false)
+                .map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.username}</td>
+                    <td>{user.score}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>

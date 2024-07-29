@@ -1,14 +1,31 @@
+import { useAccountQuery } from "./Account/AccountSlice";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
 
-const Navigation = ({ loggedIn, setLoggedIn, isAdmin, setAdmin }) => {
+const Navigation = ({ loggedIn, setLoggedIn }) => {
   const navigate = useNavigate();
+  const { data, isSuccess, refetch } = useAccountQuery();
+  const [isAdmin, setAdmin] = useState(
+    window.sessionStorage.getItem("isAdmin")
+  );
+
+  useEffect(() => {
+    const fetchData = () => {
+      if (isSuccess && data && loggedIn) {
+        refetch();
+        setAdmin(data.isAdmin);
+      }
+    };
+
+    fetchData();
+  }, [data, isSuccess, loggedIn, refetch]);
 
   const handleSignOut = () => {
     window.sessionStorage.removeItem("Token");
+    window.sessionStorage.removeItem("isAdmin");
     setLoggedIn(false);
-    setAdmin(false);
     navigate("/");
   };
 
@@ -23,7 +40,7 @@ const Navigation = ({ loggedIn, setLoggedIn, isAdmin, setAdmin }) => {
           <Nav.Link as={Link} to="/game" className="nav-link">
             Game
           </Nav.Link>
-          {isAdmin && (
+          {isAdmin && loggedIn && (
             <Nav.Link as={Link} to="/admin" className="nav-link">
               Admin Panel
             </Nav.Link>

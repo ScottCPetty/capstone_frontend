@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAccountQuery, useUpdateUserMutation } from "./AccountSlice";
 import accountImage from "../../assets/dungeon6.jpg";
 
-export default function Account({ loggedIn, setAdmin }) {
+export default function Account({ loggedIn }) {
   const [user, setUser] = useState(null);
   const [edit, setEdit] = useState(false);
   const [form, setForm] = useState({
@@ -15,17 +15,15 @@ export default function Account({ loggedIn, setAdmin }) {
   useEffect(() => {
     const fetchData = async () => {
       if (loggedIn && isSuccess && data) {
-        refetch();
         setUser(data);
-        // console.log(user);
-        if (user && user.isAdmin === true) {
-          setAdmin(true);
-        }
+        refetch();
       }
     };
 
     fetchData();
-  }, [data, isSuccess, loggedIn, refetch, setAdmin, user]);
+  }, [data, isSuccess, loggedIn, refetch, user]);
+
+  useEffect(() => {});
 
   const updateForm = (e) => {
     setForm((prev) => ({
@@ -61,7 +59,7 @@ export default function Account({ loggedIn, setAdmin }) {
   return (
     <div className="background-container">
       <div className="section">
-        {loggedIn && isSuccess && user && (
+        {user && (
           <div>
             <h1>{`Welcome, ${user.username}!`}</h1>
             <img
@@ -78,7 +76,7 @@ export default function Account({ loggedIn, setAdmin }) {
                 <form onSubmit={submit}>
                   <div className="row">
                     <div className="col">
-                      <label className="form-label">Email</label>
+                      <label className="form-label">Username</label>
                       <input
                         type="text"
                         className="form-control"
@@ -122,7 +120,7 @@ export default function Account({ loggedIn, setAdmin }) {
                 className="btn btn-primary"
                 onClick={() => setEdit(true)}
               >
-                Edit User
+                Edit My Account
               </button>
             )}
           </div>

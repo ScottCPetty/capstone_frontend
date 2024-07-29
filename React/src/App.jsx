@@ -19,20 +19,13 @@ function App() {
     window.sessionStorage.getItem("Token") ? true : false
   );
 
-  const [isAdmin, setAdmin] = useState(false);
-
   return (
     <>
       <div className="header">
         <h1>Dungeon Delve</h1>
       </div>
       <Router>
-        <Navigation
-          loggedIn={loggedIn}
-          setLoggedIn={setLoggedIn}
-          isAdmin={isAdmin}
-          setAdmin={setAdmin}
-        />
+        <Navigation loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
           <Route path="/game" element={<Game loggedIn={loggedIn} />} />
@@ -41,17 +34,8 @@ function App() {
             path="/registration"
             element={<Register setLoggedIn={setLoggedIn} />}
           />
-          <Route
-            path="/:username"
-            element={
-              <Account
-                loggedIn={loggedIn}
-                setAdmin={setAdmin}
-                isAdmin={isAdmin}
-              />
-            }
-          />
-          <Route path="/admin" element={<Admin isAdmin={isAdmin} />} />
+          <Route path="/account" element={<Account loggedIn={loggedIn} />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

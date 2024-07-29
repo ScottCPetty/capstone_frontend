@@ -10,10 +10,10 @@ const adminApi = api.injectEndpoints({
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("Token")}`,
-        }, // End of headers
-        providesTags: ["Users"], // End of fetchUsers
-      }), // end of query
-    }), // end of fetchUsers
+        },
+        providesTags: ["Users"],
+      }),
+    }),
     deleteUser: builder.mutation({
       query: (userId) => ({
         url: `/api/user/${userId}`,
@@ -21,12 +21,12 @@ const adminApi = api.injectEndpoints({
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("Token")}`,
-        }, // End of headers
-      }), // end of query
+        },
+      }),
       invalidatesTags: ["Users"],
-    }), // end of deleteUser
+    }),
     overrideExisting: false,
-  }), // end of endpoints builder
+  }),
 });
 
 const adminSlice = createSlice({
@@ -41,9 +41,9 @@ const adminSlice = createSlice({
       (state, action) => {
         state.users = action.payload;
       }
-    ); // end of addMatcher
+    );
   },
-}); // end of createSlice
+});
 
 export default adminSlice.reducer;
 export const { useFetchUsersQuery, useDeleteUserMutation } = adminApi;
