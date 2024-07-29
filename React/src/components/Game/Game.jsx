@@ -46,8 +46,12 @@ const Game = () => {
   // console.log(userData)
   return (
     <div>
-      {/* <h1>High Score: {userData?.score || 0}</h1>
-      <h1>Current Score: {currentScore}</h1> */}
+      {userData ? (
+        <h1>High Score: {userData.score}</h1>
+      ) : (
+        <h2>Log in or register to save your score and add it to the leaderboard.</h2>
+      )}
+      <h1>Current Score: {currentScore}</h1>
       <div id="game-container" />
     </div>
   );
