@@ -145,3 +145,12 @@ button:hover {
   display: flex;
   flex-direction: column;
 }
+
+/* green and yellow text for stat window hp and xp needed  */
+.green-text {
+  color: rgb(104, 249, 104);
+}
+
+.yellow-text {
+  color: rgb(234, 249, 64);
+}

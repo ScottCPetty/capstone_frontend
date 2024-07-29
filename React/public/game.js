@@ -121,9 +121,14 @@ function shuffleArray(array) {
 }
 
 function updateGameInfo() {
+  // added currentHpElement to make current hp more visible
+
   document.getElementById("current-hp").innerText = player.hp;
+  document.getElementById("current-hp").className = "green-text";
   document.getElementById("max-hp").innerText = player.maxHp;
+
   document.getElementById("current-xp").innerText = player.xp;
+  document.getElementById("current-xp").className = "yellow-text"; // add yellow text to current-xp
   document.getElementById("needed-xp").innerText = player.level * 50;
   document.getElementById("current-level").innerText = player.level;
   document.getElementById("current-potions").innerText = player.potions;
@@ -325,7 +330,7 @@ function levelUpCheck() {
   if (player.xp >= requiredXp) {
     player.level++;
     player.xp -= requiredXp; // Remove the XP required for the level up
-    updateScore()
+    updateScore();
     let points = 1;
     while (points > 0) {
       let choice = prompt(
