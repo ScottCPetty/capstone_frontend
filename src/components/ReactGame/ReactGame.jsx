@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
-const GameCanvas = () => {
+const ReactGame = () => {
   const canvasRef = useRef(null);
   const tileSize = 25;
   const tilesX = 25;
@@ -10,13 +10,32 @@ const GameCanvas = () => {
   let player = {
     x: 0,
     y: 0,
-    // other player attributes
+    hp: 100,
+    maxHp: 100,
+    xp: 0,
+    level: 1,
+    potions: 0,
+    damageMin: 2,
+    damageMax: 12,
+    dodge: 0,
+    savedPoints: 0,
+    floorsPassed: 0,
+    score: 0,
   };
+  const enemyAttributes = {
+    MiniGob: { xp: 5, hp: 15, damageMin: 1, damageMax: 6 },
+    WizKid: { xp: 10, hp: 15, damageMin: 2, damageMax: 8 },
+    Rat: { xp: 3, hp: 5, damageMin: 1, damageMax: 4 },
+    Mongrel: { xp: 15, hp: 12, damageMin: 3, damageMax: 9 },
+    Goblin: { xp: 20, hp: 34, damageMin: 4, damageMax: 9 },
+    "Lil' Tommy": { xp: 25, hp: 16, damageMin: 5, damageMax: 12 },
+  };
+  const enemiesList = Object.keys(enemyAttributes);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    
+    const ctx = canvas.getContext("2d");
+
     canvas.width = tilesX * tileSize;
     canvas.height = tilesY * tileSize;
 
@@ -41,72 +60,32 @@ const GameCanvas = () => {
       }
     };
 
-    const generateRooms = (roomCount, minSize, maxSize) => {
-      for (let i = 0; i < roomCount; i++) {
-        let roomWidth = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
-        let roomHeight = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
-        let roomX = Math.floor(Math.random() * (tilesX - roomWidth));
-        let roomY = Math.floor(Math.random() * (tilesY - roomHeight));
+    const generateMaze = (cx, cy) => {
+      const directions = [
+        [0, -1],
+        [1, 0],
+        [0, 1],
+        [-1, 0],
+      ];
 
-        if (isRoomOverlapping(roomX, roomY, roomWidth, roomHeight)) {
-          i--; // Retry if the room overlaps
-        } else {
-          for (let x = roomX; x < roomX + roomWidth; x++) {
-            for (let y = roomY; y < roomY + roomHeight; y++) {
-              dungeonMap[x][y] = "floor";
-            }
-          }
+      shuffleArray(directions);
+
+      dungeonMap[cx][cy] = "floor";
+
+      for (const [dx, dy] of directions) {
+        const nx = cx + dx * 2;
+        const ny = cy + dy * 2;
+        if (
+          nx >= 0 &&
+          nx < tilesX &&
+          ny >= 0 &&
+          ny < tilesY &&
+          dungeonMap[nx][ny] === "wall"
+        ) {
+          dungeonMap[cx + dx][cy + dy] = "floor";
+          dungeonMap[nx][ny] = "floor";
+          generateMaze(nx, ny);
         }
-      }
-    };
-
-    const isRoomOverlapping = (roomX, roomY, roomWidth, roomHeight) => {
-      for (let x = roomX - 1; x < roomX + roomWidth + 1; x++) {
-        for (let y = roomY - 1; y < roomY + roomHeight + 1; y++) {
-          if (x >= 0 && x < tilesX && y >= 0 && y < tilesY) {
-            if (dungeonMap[x][y] === "floor") {
-              return true;
-            }
-          }
-        }
-      }
-      return false;
-    };
-
-    const connectRooms = () => {
-      const floorTiles = [];
-      for (let x = 0; x < tilesX; x++) {
-        for (let y = 0; y < tilesY; y++) {
-          if (dungeonMap[x][y] === "floor") {
-            floorTiles.push({ x, y });
-          }
-        }
-      }
-
-      for (let i = 0; i < floorTiles.length - 1; i++) {
-        const currentTile = floorTiles[i];
-        const nextTile = floorTiles[i + 1];
-        if (Math.random() < 0.5) {
-          digCorridor(currentTile.x, currentTile.y, nextTile.x, currentTile.y);
-          digCorridor(nextTile.x, currentTile.y, nextTile.x, nextTile.y);
-        } else {
-          digCorridor(currentTile.x, currentTile.y, currentTile.x, nextTile.y);
-          digCorridor(currentTile.x, nextTile.y, nextTile.x, nextTile.y);
-        }
-      }
-    };
-
-    const digCorridor = (x1, y1, x2, y2) => {
-      const minX = Math.min(x1, x2);
-      const maxX = Math.max(x1, x2);
-      const minY = Math.min(y1, y2);
-      const maxY = Math.max(y1, y2);
-
-      for (let x = minX; x <= maxX; x++) {
-        dungeonMap[x][y1] = "floor";
-      }
-      for (let y = minY; y <= maxY; y++) {
-        dungeonMap[x2][y] = "floor";
       }
     };
 
@@ -119,6 +98,16 @@ const GameCanvas = () => {
           placed = true;
         }
       }
+    };
+
+    const generateDungeon = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dungeonMap = Array.from({ length: tilesX }, () =>
+        Array(tilesY).fill("wall")
+      );
+      generateMaze(player.x, player.y);
+      placeEntrance();
+      drawDungeon();
     };
 
     const drawDungeon = () => {
@@ -134,20 +123,35 @@ const GameCanvas = () => {
       drawTile(entranceX, entranceY, "yellow"); // Entrance to the next floor
     };
 
-    const generateDungeon = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      dungeonMap = Array.from({ length: tilesX }, () => Array(tilesY).fill("wall"));
-      generateRooms(8, 4, 8); // Adjusted the room count or size to fill more space
-      connectRooms();
-      placeEntrance();
-      drawDungeon();
-      drawPlayer();
-    };
-
     generateDungeon();
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return (
+    <div className="background-container">
+      <div className="section">
+        <canvas ref={canvasRef} style={{ border: "1px solid black" }} />{" "}
+        <div id="sidebar">
+          <div id="stats-window" style={{ border: "1px solid black" }}>
+            <h3>Stats</h3>
+            <div id="hp-bar">
+            </div>
+            <p>HP:</p>
+            <p>Potions:</p>
+            <p>XP:</p>
+            <p>Level:</p>
+            <p>Saved Points:</p>
+            <p>Score:</p>
+            <p>Attack:</p>
+            <p>Dodge Chance:</p>
+          </div>
+          <div id="combat-log" style={{ border: "1px solid black" }}>
+            <h3>Combat Log</h3>
+            <ul id="log"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default GameCanvas;
+export default ReactGame;
