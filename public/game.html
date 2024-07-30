@@ -4,9 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dungeon Crawler Game</title>
+    <link rel="stylesheet" href="game.css" />
   </head>
   <body>
     <div class="game-wrapper">
+      <div id="left-sidebar">
+        <div id="character-portrait">
+          <img src="../src/assets/gamer1.jpg" alt="Character Portrait" />
+        </div>
+        <div id="enemy-portrait">
+          <img id="enemy-image" src="" alt="Enemy Portrait" />
+        </div>
+        <div id="instructions">
+          <h3>Instructions</h3>
+          <p>Use W, A, S, D to move.</p>
+          <p>Press R to use a potion.</p>
+          <p>Press E to attack.</p>
+          <p>Press P to use saved points.</p>
+        </div>
+      </div>
       <canvas id="gameCanvas" width="400" height="400"></canvas>
       <div id="sidebar">
         <div id="stats-window">
@@ -39,5 +55,6 @@
         </div>
       </div>
     </div>
+    <script src="game.js"></script>
   </body>
 </html>
