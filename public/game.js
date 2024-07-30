@@ -157,14 +157,14 @@ function updateEnemyInfo() {
     const enemyImage = document.getElementById("enemy-image");
     document.getElementById("enemy-name").innerText = currentEnemy.name;
     document.getElementById("enemy-hp").innerText = currentEnemy.hp;
-    enemyImage.src = `../src/assets/${currentEnemy.name}.jpg`;
+    enemyImage.src = `./assets/${currentEnemy.name}.jpg`;
     enemyImage.classList.add("glow-red");
     enemyImage.style.display = "block";
   } else {
     const enemyImage = document.getElementById("enemy-image");
     document.getElementById("enemy-name").innerText = "None";
     document.getElementById("enemy-hp").innerText = "N/A";
-    enemyImage.src = "../src/assets/dungeon3.jpg";
+    enemyImage.src = "./assets/dungeon3.jpg";
     enemyImage.classList.remove("glow-red");
     enemyImage.style.display = "block";
   }

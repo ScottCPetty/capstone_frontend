@@ -115,7 +115,7 @@ button:hover {
 
 /* Home */
 .background-container {
-  background-image: url("./assets/dungeon3.jpg");
+  background-image: url("./public/assets/dungeon3.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
