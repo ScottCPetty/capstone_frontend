@@ -1,6 +1,6 @@
 .game-wrapper {
-  font-family: Arial, sans-serif;
-  background-color: rgb(100, 100, 100);
+  font-family: Garamond;
+  background-color: rgba(31, 31, 31, 0.027);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -15,14 +15,19 @@
   flex-direction: column;
   align-items: center;
   margin-right: 20px;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.719);
 }
+
+#sidebar {
+  background-color: rgba(0, 0, 0, 0.719);
+}
+
 /* portrait image css  */
 #character-portrait img,
 #enemy-portrait img {
   width: 200px;
   height: 200px;
-  border: 7px groove gold;
+  border: 7px groove burlywood;
   margin: 5px 0 5px 0;
 }
 /* set keyframes to make pulsing red box-shadow  */
@@ -72,6 +77,7 @@
   height: 150px;
   overflow-y: auto;
   border: 1px solid #000;
+  background-color: #000;
   padding: 10px;
   width: 250px;
 }
