@@ -40,6 +40,9 @@ const Navigation = ({ loggedIn, setLoggedIn }) => {
           <Nav.Link as={Link} to="/game" className="nav-link">
             Game
           </Nav.Link>
+          <Nav.Link as={Link} to="/reactgame" className="nav-link">
+            React Game
+          </Nav.Link>
           {isAdmin && loggedIn && (
             <Nav.Link as={Link} to="/admin" className="nav-link">
               Admin Panel
