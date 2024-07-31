@@ -1,8 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 25; // Reduced tile size to fit the 80x80 dungeon
-const tilesX = 5;
-const tilesY = 5;
+const tilesX = 25;
+const tilesY = 25;
 canvas.width = tilesX * tileSize;
 canvas.height = tilesY * tileSize;
 
