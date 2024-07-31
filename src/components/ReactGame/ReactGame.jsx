@@ -22,6 +22,7 @@ const ReactGame = () => {
     floorsPassed: 0,
     score: 0,
   };
+
   const enemyAttributes = {
     MiniGob: { xp: 5, hp: 15, damageMin: 1, damageMax: 6 },
     WizKid: { xp: 10, hp: 15, damageMin: 2, damageMax: 8 },
@@ -30,8 +31,10 @@ const ReactGame = () => {
     Goblin: { xp: 20, hp: 34, damageMin: 4, damageMax: 9 },
     "Lil' Tommy": { xp: 25, hp: 16, damageMin: 5, damageMax: 12 },
   };
+
   const enemiesList = Object.keys(enemyAttributes);
 
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");

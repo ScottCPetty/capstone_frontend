@@ -119,3 +119,14 @@
   width: 100%; /* Full width by default */
   border-radius: 10px;
 }
+
+.increase-stat-btn {
+  display: none;
+  margin-left: 5px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.increase-stat-btn.show {
+  display: inline;
+}

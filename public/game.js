@@ -120,22 +120,46 @@ function shuffleArray(array) {
   }
 }
 
+function increaseStat(stat) {
+  if (player.savedPoints > 0) {
+    if (stat === 'hp') {
+      player.maxHp += 5;
+      player.hp += 5; // Increase current HP as well
+    } else if (stat === 'attack') {
+      player.damageMin++;
+      player.damageMax++;
+    } else if (stat === 'dodge') {
+      player.dodge += 5;
+    }
+    player.savedPoints--;
+    updateGameInfo();
+    updateStatButtons();
+  }
+}
+
+function updateStatButtons() {
+  const buttons = document.querySelectorAll('.increase-stat-btn');
+  buttons.forEach(button => {
+    if (player.savedPoints > 0) {
+      button.classList.add('show');
+    } else {
+      button.classList.remove('show');
+    }
+  });
+}
+
 function updateGameInfo() {
   // added currentHpElement to make current hp more visible
 
   document.getElementById("current-hp").innerText = player.hp;
-  document.getElementById("current-hp").className = "green-text";
   document.getElementById("max-hp").innerText = player.maxHp;
-
   document.getElementById("current-xp").innerText = player.xp;
-  document.getElementById("current-xp").className = "yellow-text"; // add yellow text to current-xp
   document.getElementById("needed-xp").innerText = player.level * 50;
   document.getElementById("current-level").innerText = player.level;
   document.getElementById("current-potions").innerText = player.potions;
-  document.getElementById(
-    "attack-range"
-  ).innerText = `${player.damageMin}-${player.damageMax}`;
+  document.getElementById("attack-range").innerText = `${player.damageMin}-${player.damageMax}`;
   document.getElementById("dodge-chance").innerText = `${player.dodge}%`;
+  document.getElementById("current-score").innerText = player.score;
 
   // Update HP bar
   const hpBar = document.getElementById("hp-bar");
@@ -150,6 +174,8 @@ function updateGameInfo() {
   } else {
     savedPointsLine.style.display = "none";
   }
+
+  updateStatButtons();
 }
 
 function updateEnemyInfo() {
@@ -339,32 +365,9 @@ function levelUpCheck() {
     player.level++;
     player.xp -= requiredXp; // Remove the XP required for the level up
     updateScore();
-    let points = 1;
-    while (points > 0) {
-      let choice = prompt(
-        `You leveled up! You have ${points} points to spend. Choose to increase HP, DMG, or DOD.`
-      );
-      if (choice === null) {
-        player.savedPoints += points;
-        points = 0;
-      } else if (choice.toLowerCase() == "hp") {
-        player.maxHp += 5;
-        player.hp += 5; // Increase current HP as well
-        points--;
-      } else if (choice.toLowerCase() == "dmg") {
-        player.damageMin++;
-        player.damageMax++;
-        points--;
-      } else if (choice.toLowerCase() == "dod") {
-        player.dodge += 5;
-        points--;
-      } else {
-        alert("Invalid choice");
-      }
-    }
+    player.savedPoints++; // Add a saved point
     updateGameInfo();
     levelUpCheck(); // Check again in case the player has enough XP to level up again
-    updateScore();
   }
 }
 
