@@ -32,6 +32,7 @@
           </div>
           <p>
             HP: <span id="current-hp">100</span> / <span id="max-hp">100</span>
+            <button id="increase-hp" class="increase-stat-btn" onclick="increaseStat('hp')">+</button>
           </p>
           <p>Potions [r]: <span id="current-potions">0</span></p>
           <p>
@@ -42,8 +43,12 @@
             Saved Points [p]: <span id="unspent-points">0</span>
           </p>
           <p>Score: <span id="current-score">0</span></p>
-          <p>Attack [e]: <span id="attack-range">2-12</span></p>
-          <p>Dodge Chance: <span id="dodge-chance">0%</span></p>
+          <p>Attack [e]: <span id="attack-range">2-12</span>
+            <button id="increase-attack" class="increase-stat-btn" onclick="increaseStat('attack')">+</button>
+          </p>
+          <p>Dodge Chance: <span id="dodge-chance">0%</span>
+            <button id="increase-dodge" class="increase-stat-btn" onclick="increaseStat('dodge')">+</button>
+          </p>
         </div>
         <div id="enemy-info">
           <p>Enemy: <span id="enemy-name">None</span></p>
