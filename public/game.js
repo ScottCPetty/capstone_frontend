@@ -1,8 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 25; // Reduced tile size to fit the 80x80 dungeon
-const tilesX = 25;
-const tilesY = 25;
+const tilesX = 5;
+const tilesY = 5;
 canvas.width = tilesX * tileSize;
 canvas.height = tilesY * tileSize;
 
@@ -152,8 +152,10 @@ function updateGameInfo() {
   // added currentHpElement to make current hp more visible
 
   document.getElementById("current-hp").innerText = player.hp;
+  document.getElementById("current-hp").className = "green-text";
   document.getElementById("max-hp").innerText = player.maxHp;
   document.getElementById("current-xp").innerText = player.xp;
+  document.getElementById("current-xp").className = "yellow-text";
   document.getElementById("needed-xp").innerText = player.level * 50;
   document.getElementById("current-level").innerText = player.level;
   document.getElementById("current-potions").innerText = player.potions;
@@ -165,15 +167,6 @@ function updateGameInfo() {
   const hpBar = document.getElementById("hp-bar");
   const hpPercent = (player.hp / player.maxHp) * 100;
   hpBar.style.width = `${hpPercent}%`;
-
-  // Update Saved Points line
-  const savedPointsLine = document.getElementById("saved-points-line");
-  if (player.savedPoints > 0) {
-    savedPointsLine.style.display = "block";
-    document.getElementById("unspent-points").innerText = player.savedPoints;
-  } else {
-    savedPointsLine.style.display = "none";
-  }
 
   updateStatButtons();
 }
@@ -371,39 +364,6 @@ function levelUpCheck() {
   }
 }
 
-function useSavedPoints() {
-  let points = player.savedPoints;
-  while (points > 0) {
-    let choice = prompt(
-      `You have ${points} saved points. Choose to increase HP, DMG, or DOD.`
-    );
-    if (choice.toLowerCase() == "hp") {
-      player.maxHp += 5;
-      player.hp += 5; // Increase current HP as well
-      points--;
-    } else if (choice.toLowerCase() == "dmg") {
-      player.damageMin++;
-      player.damageMax++;
-      points--;
-    } else if (choice.toLowerCase() == "dod") {
-      player.dodge += 5;
-      points--;
-    } else if (choice.toLowerCase() == "god") {
-      player.maxHp = 1000;
-      player.hp = 1000;
-      player.damageMin = 100;
-      player.damageMax = 100;
-      player.dodge = 100;
-      player.potions = 100;
-      points--;
-    } else {
-      alert("Invalid choice");
-    }
-  }
-  player.savedPoints = 0; // Reset saved points after use
-  updateGameInfo();
-}
-
 function updateScore() {
   player.score = player.level * player.floorsPassed * 10;
   document.getElementById("current-score").innerText = player.score;
@@ -442,7 +402,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "d" || e.code === "ArrowRight") movePlayer(1, 0);
   if (e.key === "r") usePotion();
   if (e.key === "e") attackEnemy();
-  if (e.key === "p") useSavedPoints();
 });
 
 generateDungeon();
