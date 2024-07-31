@@ -34,6 +34,15 @@ const enemyAttributes = {
   "Lil' Tommy": { xp: 25, hp: 16, damageMin: 5, damageMax: 12 },
 };
 
+let boss = {
+  x: 20,
+  y: 20,
+  xp: 100,
+  hp: 100,
+  damageMin: 5,
+  damageMax: 15,
+};
+
 const enemiesList = Object.keys(enemyAttributes);
 let dungeonMap = [];
 let entranceX, entranceY;
@@ -50,6 +59,10 @@ function drawWall(x, y) {
 
 function drawPlayer() {
   drawTile(player.x, player.y, "blue");
+}
+
+function drawBoss() {
+  drawTile(boss.x, boss.y, "red");
 }
 
 function generateDungeon() {
@@ -122,13 +135,13 @@ function shuffleArray(array) {
 
 function increaseStat(stat) {
   if (player.savedPoints > 0) {
-    if (stat === 'hp') {
+    if (stat === "hp") {
       player.maxHp += 5;
       player.hp += 5; // Increase current HP as well
-    } else if (stat === 'attack') {
+    } else if (stat === "attack") {
       player.damageMin++;
       player.damageMax++;
-    } else if (stat === 'dodge') {
+    } else if (stat === "dodge") {
       player.dodge += 5;
     }
     player.savedPoints--;
@@ -138,12 +151,12 @@ function increaseStat(stat) {
 }
 
 function updateStatButtons() {
-  const buttons = document.querySelectorAll('.increase-stat-btn');
-  buttons.forEach(button => {
+  const buttons = document.querySelectorAll(".increase-stat-btn");
+  buttons.forEach((button) => {
     if (player.savedPoints > 0) {
-      button.classList.add('show');
+      button.classList.add("show");
     } else {
-      button.classList.remove('show');
+      button.classList.remove("show");
     }
   });
 }
@@ -159,7 +172,9 @@ function updateGameInfo() {
   document.getElementById("needed-xp").innerText = player.level * 50;
   document.getElementById("current-level").innerText = player.level;
   document.getElementById("current-potions").innerText = player.potions;
-  document.getElementById("attack-range").innerText = `${player.damageMin}-${player.damageMax}`;
+  document.getElementById(
+    "attack-range"
+  ).innerText = `${player.damageMin}-${player.damageMax}`;
   document.getElementById("dodge-chance").innerText = `${player.dodge}%`;
   document.getElementById("current-score").innerText = player.score;
 
@@ -174,9 +189,12 @@ function updateGameInfo() {
 function updateEnemyInfo() {
   if (currentEnemy) {
     const enemyImage = document.getElementById("enemy-image");
-    document.getElementById("enemy-name").innerText = currentEnemy.name;
+    document.getElementById("enemy-name").innerText =
+      currentEnemy.name || "Boss";
     document.getElementById("enemy-hp").innerText = currentEnemy.hp;
-    enemyImage.src = `./assets/${currentEnemy.name}.jpg`;
+    enemyImage.src = currentEnemy.name
+      ? `./assets/${currentEnemy.name}.jpg`
+      : "./assets/boss.jpg";
     enemyImage.classList.add("glow-red");
     enemyImage.style.display = "block";
   } else {
@@ -241,15 +259,68 @@ function movePlayer(dx, dy) {
       player.y = 0;
       generateDungeon();
       drawPlayer();
+      drawBoss();
       levelUpCheck();
       updateScore();
       return;
     }
+    if (newX === boss.x && newY === boss.y) {
+      addCombatLog("You encountered the boss!");
+      encounterBoss();
+    } else {
+      checkEncounter();
+    }
     checkEncounter();
     drawDungeon();
     drawPlayer();
+    drawBoss();
     updateGameInfo();
   }
+}
+
+function encounterBoss() {
+  currentEnemy = boss;
+  updateEnemyInfo();
+  addCombatLog(`Encountered the Boss with ${boss.hp} HP!`);
+}
+
+function attackBoss() {
+  if (!currentEnemy) return;
+  let playerDamage =
+    Math.floor(Math.random() * (player.damageMax - player.damageMin + 1)) +
+    player.damageMin;
+  currentEnemy.hp -= playerDamage;
+  addCombatLog(`You dealt ${playerDamage} damage to the Boss.`);
+  attackMade = true;
+
+  if (currentEnemy.hp <= 0) {
+    player.xp += currentEnemy.xp;
+    addCombatLog(`You defeated the Boss and gained ${currentEnemy.xp} XP.`);
+    currentEnemy = null;
+    updateEnemyInfo();
+    levelUpCheck();
+    // Additional boss defeat logic (e.g., end game, go to next level)
+    return;
+  }
+
+  let enemyDamage =
+    Math.floor(
+      Math.random() * (currentEnemy.damageMax - currentEnemy.damageMin + 1)
+    ) + currentEnemy.damageMin;
+  let dodgeChance = Math.random() * 100;
+  if (dodgeChance < player.dodge) {
+    addCombatLog(`You dodged the Boss's attack!`);
+  } else {
+    player.hp -= enemyDamage;
+    addCombatLog(`The Boss dealt ${enemyDamage} damage to you.`);
+  }
+
+  if (player.hp <= 0) {
+    alert("Game Over!");
+    resetGame();
+  }
+  updateGameInfo();
+  updateEnemyInfo();
 }
 
 function checkEncounter() {
@@ -390,6 +461,7 @@ function resetGame() {
   steps = 0;
   generateDungeon();
   drawPlayer();
+  drawBoss();
   updateGameInfo();
   updateEnemyInfo();
   document.getElementById("log").innerHTML = "";
@@ -401,10 +473,17 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "a" || e.code === "ArrowLeft") movePlayer(-1, 0);
   if (e.key === "d" || e.code === "ArrowRight") movePlayer(1, 0);
   if (e.key === "r") usePotion();
-  if (e.key === "e") attackEnemy();
+  if (e.key === "e") {
+    if (currentEnemy === boss) {
+      attackBoss();
+    } else {
+      attackEnemy();
+    }
+  }
 });
 
 generateDungeon();
 drawPlayer();
+drawBoss();
 updateGameInfo();
 updateEnemyInfo();
