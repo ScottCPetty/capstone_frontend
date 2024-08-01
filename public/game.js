@@ -252,7 +252,9 @@ function movePlayer(dx, dy) {
     player.y = newY;
     steps++;
     if (newX === entranceX && newY === entranceY) {
-      addCombatLog("You found the entrance to the next floor! Press E to leave this floor.");
+      addCombatLog(
+        "You found the entrance to the next floor! Press E to leave this floor."
+      );
     }
     if (newX === boss.x && newY === boss.y && !boss.defeated) {
       addCombatLog("You encountered the boss!");
@@ -278,6 +280,17 @@ function nextFloor() {
   player.y = 0;
   generateDungeon();
   drawPlayer();
+  boss = {
+    x: 20,
+    y: 20,
+    xp: 100,
+    hp: 100,
+    damageMin: 5,
+    damageMax: 15,
+    defeated: false,
+    direction: 0,
+    lastDirection: null,
+  };
   drawBoss();
   levelUpCheck();
   updateScore();
@@ -397,19 +410,22 @@ function checkEncounter() {
 }
 
 function encounterEnemy() {
-  const enemyType = enemiesList[Math.floor(Math.random() * enemiesList.length)];
-  const attributes = enemyAttributes[enemyType];
-  currentEnemy = {
-    name: enemyType,
-    hp: attributes.hp,
-    damageMin: attributes.damageMin,
-    damageMax: attributes.damageMax,
-    xp: attributes.xp,
-  };
-  updateEnemyInfo();
-  addCombatLog(
-    `Encountered a ${currentEnemy.name} with ${currentEnemy.hp} HP!`
-  );
+  if (player.x !== entranceX && player.y !== entranceY) {
+    const enemyType =
+      enemiesList[Math.floor(Math.random() * enemiesList.length)];
+    const attributes = enemyAttributes[enemyType];
+    currentEnemy = {
+      name: enemyType,
+      hp: attributes.hp,
+      damageMin: attributes.damageMin,
+      damageMax: attributes.damageMax,
+      xp: attributes.xp,
+    };
+    updateEnemyInfo();
+    addCombatLog(
+      `Encountered a ${currentEnemy.name} with ${currentEnemy.hp} HP!`
+    );
+  }
 }
 
 function findPotion() {
