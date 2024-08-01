@@ -1,6 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const tileSize = 25; // Reduced tile size to fit the 80x80 dungeon
+const tileSize = 25;
 const tilesX = 25;
 const tilesY = 25;
 canvas.width = tilesX * tileSize;
@@ -41,6 +41,9 @@ let boss = {
   hp: 100,
   damageMin: 5,
   damageMax: 15,
+  defeated: false,
+  direction: 0,
+  lastDirection: null,
 };
 
 const enemiesList = Object.keys(enemyAttributes);
@@ -62,7 +65,9 @@ function drawPlayer() {
 }
 
 function drawBoss() {
-  drawTile(boss.x, boss.y, "red");
+  if (!boss.defeated) {
+    drawTile(boss.x, boss.y, "red");
+  }
 }
 
 function generateDungeon() {
@@ -83,7 +88,7 @@ function drawDungeon() {
       }
     }
   }
-  drawTile(entranceX, entranceY, "yellow"); // Entrance to the next floor
+  drawTile(entranceX, entranceY, "yellow");
 }
 
 function generateMaze(cx, cy) {
@@ -137,7 +142,7 @@ function increaseStat(stat) {
   if (player.savedPoints > 0) {
     if (stat === "hp") {
       player.maxHp += 5;
-      player.hp += 5; // Increase current HP as well
+      player.hp += 5;
     } else if (stat === "attack") {
       player.damageMin++;
       player.damageMax++;
@@ -162,8 +167,6 @@ function updateStatButtons() {
 }
 
 function updateGameInfo() {
-  // added currentHpElement to make current hp more visible
-
   document.getElementById("current-hp").innerText = player.hp;
   document.getElementById("current-hp").className = "green-text";
   document.getElementById("max-hp").innerText = player.maxHp;
@@ -217,7 +220,7 @@ function addCombatLog(message) {
   } else {
     entry.classList.add("new-entry");
   }
-  log.insertBefore(entry, log.firstChild); // Insert new entry at the top
+  log.insertBefore(entry, log.firstChild);
 
   // Remove 'new-entry' and 'new-attack-entry' class from previous entries
   const entries = Array.from(log.children);
@@ -249,33 +252,35 @@ function movePlayer(dx, dy) {
     player.y = newY;
     steps++;
     if (newX === entranceX && newY === entranceY) {
-      addCombatLog("You found the entrance to the next floor!");
-      player.xp += 50;
-      player.floorsPassed++;
-      updateGameInfo();
-      // Handle moving to the next floor
-      // For simplicity, just reset the player's position and generate a new dungeon
-      player.x = 0;
-      player.y = 0;
-      generateDungeon();
-      drawPlayer();
-      drawBoss();
-      levelUpCheck();
-      updateScore();
-      return;
+      addCombatLog("You found the entrance to the next floor! Press E to leave this floor.");
     }
-    if (newX === boss.x && newY === boss.y) {
+    if (newX === boss.x && newY === boss.y && !boss.defeated) {
       addCombatLog("You encountered the boss!");
       encounterBoss();
     } else {
       checkEncounter();
     }
-    checkEncounter();
+    if (newX !== boss.x && newY !== boss.y) moveBoss();
+    // moveBoss();
     drawDungeon();
     drawPlayer();
     drawBoss();
     updateGameInfo();
   }
+}
+
+function nextFloor() {
+  addCombatLog("You proceeded to the next floor.");
+  player.xp += 50;
+  player.floorsPassed++;
+  updateGameInfo();
+  player.x = 0;
+  player.y = 0;
+  generateDungeon();
+  drawPlayer();
+  drawBoss();
+  levelUpCheck();
+  updateScore();
 }
 
 function encounterBoss() {
@@ -297,9 +302,9 @@ function attackBoss() {
     player.xp += currentEnemy.xp;
     addCombatLog(`You defeated the Boss and gained ${currentEnemy.xp} XP.`);
     currentEnemy = null;
+    boss.defeated = true;
     updateEnemyInfo();
     levelUpCheck();
-    // Additional boss defeat logic (e.g., end game, go to next level)
     return;
   }
 
@@ -321,6 +326,62 @@ function attackBoss() {
   }
   updateGameInfo();
   updateEnemyInfo();
+}
+
+function moveBoss() {
+  if (boss.defeated) return;
+
+  const directions = [
+    [0, -1], // up
+    [1, 0], // right
+    [0, 1], // down
+    [-1, 0], // left
+  ];
+
+  let triedDirections = [];
+
+  while (triedDirections.length < 4) {
+    let [dx, dy] = directions[boss.direction];
+    let newX = boss.x + dx;
+    let newY = boss.y + dy;
+
+    if (
+      newX >= 0 &&
+      newX < tilesX &&
+      newY >= 0 &&
+      newY < tilesY &&
+      dungeonMap[newX][newY] === "floor" &&
+      (boss.lastDirection === null ||
+        boss.direction !== (boss.lastDirection + 2) % 4)
+    ) {
+      boss.x = newX;
+      boss.y = newY;
+      boss.lastDirection = boss.direction;
+      return;
+    } else {
+      triedDirections.push(boss.direction);
+      boss.direction = (boss.direction + 1) % 4;
+    }
+  }
+
+  // If all directions fail, backtrack
+  if (triedDirections.length >= 4) {
+    boss.direction = (boss.lastDirection + 2) % 4;
+    let [dx, dy] = directions[boss.direction];
+    let newX = boss.x + dx;
+    let newY = boss.y + dy;
+    if (
+      newX >= 0 &&
+      newX < tilesX &&
+      newY >= 0 &&
+      newY < tilesY &&
+      dungeonMap[newX][newY] === "floor"
+    ) {
+      boss.x = newX;
+      boss.y = newY;
+      boss.lastDirection = boss.direction;
+    }
+  }
 }
 
 function checkEncounter() {
@@ -399,7 +460,6 @@ function attackEnemy() {
     return;
   }
 
-  // Calculate enemy damage and check for dodge
   let enemyDamage =
     Math.floor(
       Math.random() * (currentEnemy.damageMax - currentEnemy.damageMin + 1)
@@ -427,11 +487,11 @@ function levelUpCheck() {
   const requiredXp = player.level * 50;
   if (player.xp >= requiredXp) {
     player.level++;
-    player.xp -= requiredXp; // Remove the XP required for the level up
+    player.xp -= requiredXp;
     updateScore();
-    player.savedPoints++; // Add a saved point
+    player.savedPoints++;
     updateGameInfo();
-    levelUpCheck(); // Check again in case the player has enough XP to level up again
+    levelUpCheck();
   }
 }
 
@@ -474,7 +534,9 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "d" || e.code === "ArrowRight") movePlayer(1, 0);
   if (e.key === "r") usePotion();
   if (e.key === "e") {
-    if (currentEnemy === boss) {
+    if (player.x === entranceX && player.y === entranceY) {
+      nextFloor();
+    } else if (currentEnemy === boss) {
       attackBoss();
     } else {
       attackEnemy();
