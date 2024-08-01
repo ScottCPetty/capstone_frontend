@@ -10,7 +10,7 @@ body {
   text-align: center;
   color: antiquewhite;
   background-color: black;
-  background-image: url("./assets/dungeon.jpg");
+  background-image: url("../public/assets/dungeon.jpg");
   padding: 5px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
