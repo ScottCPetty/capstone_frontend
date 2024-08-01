@@ -22,6 +22,12 @@ playerCanvas.height = tilesY * tileSize;
 const playerIcon = new Image();
 playerIcon.src = "./warlord-helmet.png";
 
+const bossIcon = new Image();
+bossIcon.src = "./crowned-skull.png";
+
+const exitIcon = new Image();
+exitIcon.src = "./stairs-25.png";
+
 let player = {
   x: 0,
   y: 0,
@@ -69,25 +75,18 @@ const enemiesList = Object.keys(enemyAttributes);
 let dungeonMap = [];
 let entranceX, entranceY;
 
-function drawTile(x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-}
-
 function drawWall(x, y) {
   ctx.fillStyle = "black";
   ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
 }
 
 function drawPlayer() {
-  playerCtx.clearRect(0, 0, playerCanvas.width, playerCanvas.height);
-  console.log(player.x, player.y);
   playerCtx.drawImage(playerIcon, player.x * tileSize, player.y * tileSize);
 }
 
 function drawBoss() {
   if (!boss.defeated) {
-    drawTile(boss.x, boss.y, "red");
+    playerCtx.drawImage(bossIcon, boss.x * tileSize, boss.y * tileSize);
   }
 }
 
@@ -100,6 +99,7 @@ function generateDungeon() {
 }
 
 function drawDungeon() {
+  playerCtx.clearRect(0, 0, playerCanvas.width, playerCanvas.height);
   for (let x = 0; x < tilesX; x++) {
     for (let y = 0; y < tilesY; y++) {
       if (dungeonMap[x][y] === "floor") {
@@ -109,7 +109,8 @@ function drawDungeon() {
       }
     }
   }
-  drawTile(entranceX, entranceY, "yellow");
+  // drawTile(entranceX, entranceY, "yellow");
+  playerCtx.drawImage(exitIcon, entranceX * tileSize, entranceY * tileSize);
 }
 
 function generateMaze(cx, cy) {
