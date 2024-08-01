@@ -204,9 +204,14 @@ function updateEnemyInfo() {
     document.getElementById("enemy-name").innerText =
       currentEnemy.name || "Boss";
     document.getElementById("enemy-hp").innerText = currentEnemy.hp;
-    enemyImage.src = currentEnemy.name
-      ? `./assets/${currentEnemy.name}.jpg`
-      : "./assets/Jester.jpg";
+    if (currentEnemy === boss) {
+      enemyImage.src = "./assets/player-portraits/Jester.jpg";
+    } else {
+      enemyImage.src = `./assets/${currentEnemy.name}.jpg`;
+    }
+    // enemyImage.src = currentEnemy.name
+    //   ? `./assets/${currentEnemy.name}.jpg`
+    //   : "./assets/Jester.jpg";
     enemyImage.classList.add("glow-red");
     enemyImage.style.display = "block";
   } else {
