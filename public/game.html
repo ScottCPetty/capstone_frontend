@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dungeon Crawler Game</title>
-    <link rel="stylesheet" href="game.css" />
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
+    <img src="./warlord-helmet.png" alt="player" class="player-icon" />
     <div class="game-wrapper">
       <div id="left-sidebar">
         <div id="character-portrait">
@@ -22,8 +23,11 @@
           <p>Press E to attack or enter next floor.</p>
         </div>
       </div>
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
-      <div id="sidebar">
+      <div style="position: relative">
+        <canvas id="gameCanvas"></canvas>
+        <canvas id="playerCanvas"></canvas>
+      </div>
+      <div id="right-sidebar">
         <div id="stats-window">
           <h3>Stats</h3>
           <div id="hp-bar-container">
@@ -31,7 +35,13 @@
           </div>
           <p>
             HP: <span id="current-hp">100</span> / <span id="max-hp">100</span>
-            <button id="increase-hp" class="increase-stat-btn" onclick="increaseStat('hp')">+</button>
+            <button
+              id="increase-hp"
+              class="increase-stat-btn"
+              onclick="increaseStat('hp')"
+            >
+              +
+            </button>
           </p>
           <p>Potions: <span id="current-potions">0</span></p>
           <p>
@@ -39,11 +49,25 @@
           </p>
           <p>Level: <span id="current-level">1</span></p>
           <p>Score: <span id="current-score">0</span></p>
-          <p>Attack: <span id="attack-range">2-12</span>
-            <button id="increase-attack" class="increase-stat-btn" onclick="increaseStat('attack')">+</button>
+          <p>
+            Attack: <span id="attack-range">2-12</span>
+            <button
+              id="increase-attack"
+              class="increase-stat-btn"
+              onclick="increaseStat('attack')"
+            >
+              +
+            </button>
           </p>
-          <p>Dodge Chance: <span id="dodge-chance">0%</span>
-            <button id="increase-dodge" class="increase-stat-btn" onclick="increaseStat('dodge')">+</button>
+          <p>
+            Dodge Chance: <span id="dodge-chance">0%</span>
+            <button
+              id="increase-dodge"
+              class="increase-stat-btn"
+              onclick="increaseStat('dodge')"
+            >
+              +
+            </button>
           </p>
         </div>
         <div id="enemy-info">

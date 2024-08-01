@@ -1,3 +1,4 @@
+/* General Body Styles */
 body {
   font-family: Garamond;
   background-color: #f8f8f8;
@@ -6,13 +7,22 @@ body {
   scroll-behavior: smooth;
 }
 
-.header {
+/* Header */
+.header,
+.game-header {
   text-align: center;
   color: antiquewhite;
-  background-color: black;
-  background-image: url("../public/assets/dungeon.jpg");
   padding: 5px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  background-color: black;
+  background-image: url("./assets/dungeon.jpg");
+}
+
+.game-header {
+  background-color: rgb(43, 43, 43);
 }
 
 /* Navbar */
@@ -33,8 +43,7 @@ body {
 
 .form-group {
   padding: 8px;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 0 10%;
   text-align: left;
 }
 
@@ -165,16 +174,11 @@ button:hover {
 }
 
 .section {
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 0 10%;
   padding: 3%;
   background-color: rgba(56, 56, 56, 0.897);
-  display: block;
-  justify-content: center;
-  align-items: center;
   color: antiquewhite;
   text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid black;
   box-shadow: 0 10px 12px black;
 }
@@ -183,33 +187,168 @@ button:hover {
   margin-top: 2%;
 }
 
-#scoreboard {
+/* Game Wrapper */
+.game-wrapper {
+  background-color: rgba(31, 31, 31, 0.027);
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  border-collapse: collapse;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Game Wrapper Elements */
+.player-icon {
+  display: none;
+}
+
+#gameCanvas {
+  border: 1px solid #000;
+  background-image: url("../public/game-background-625x625.jpg");
+  background-size: 100%;
+}
+
+#playerCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  margin: 7px;
+}
+
+.game-wrapper #game-container {
+  display: flex;
+}
+
+.game-wrapper #right-sidebar,
+.game-wrapper #combat-log {
+  overflow-y: auto;
+}
+
+.game-wrapper #right-sidebar {
+  margin-left: 20px;
+}
+
+.game-wrapper #combat-log {
+  height: 150px;
+  border: 1px solid #000;
+  background-color: #000;
+  padding: 10px;
+  width: 250px;
+}
+
+.game-wrapper #log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-wrapper #log li {
+  color: white;
+}
+
+.game-wrapper #log li.new-entry,
+.game-wrapper #log li.new-attack-entry {
+  font-weight: bold;
+}
+
+.game-wrapper #log li.new-attack-entry {
+  color: white;
+}
+
+.game-wrapper #log li:first-child {
+  color: yellow;
+}
+
+.game-wrapper #stats-window {
+  border: 1px solid #000;
+  padding: 10px;
+}
+
+.game-wrapper #hp-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border: 1px solid #555353;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.game-wrapper #hp-bar {
+  height: 100%;
+  background-color: red;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Game Canvas and Sidebars */
+#gameCanvas {
+  border: 7px groove burlywood;
+  box-shadow: 0 10px 12px black;
+  flex: 1;
+}
+
+#left-sidebar,
+#right-sidebar {
+  background-color: rgba(0, 0, 0, 0.719);
+  box-shadow: 0 10px 12px black;
+  height: 100%;
+  margin-left: 6px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+#left-sidebar {
   display: flex;
   flex-direction: column;
-}
-
-/* Game */
-.game-header {
-  text-align: center;
-  color: antiquewhite;
-  background-color: rgb(43, 43, 43);
-  padding: 5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.game-container {
-  background-color: rgba(56, 56, 56, 0.897);
-  display: block;
-  justify-content: center;
   align-items: center;
-  color: antiquewhite;
-  text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid black;
-  box-shadow: 0 10px 12px black;
+  margin-right: 20px;
 }
 
-/* green and yellow text for stat window hp and xp needed  */
+#right-sidebar {
+  border: 7px groove burlywood;
+}
+
+/* Portraits */
+#character-portrait img,
+#enemy-portrait img {
+  width: 200px;
+  height: 200px;
+  border: 7px groove burlywood;
+}
+
+#enemy-portrait {
+  margin: 20px 0;
+}
+
+/* Instructions */
+#instructions {
+  padding: 5px;
+  background-color: #000;
+  color: white;
+}
+
+/* Keyframes and Animations */
+@keyframes pulseRed {
+  0% {
+    box-shadow: 0 0 1px red;
+  }
+  50% {
+    box-shadow: 0 0 15px 5px red;
+  }
+  100% {
+    box-shadow: 0 0 1px red;
+  }
+}
+
+.glow-red {
+  animation: pulseRed 2s infinite;
+}
+
+/* Text Colors */
 .green-text {
   color: rgb(104, 249, 104);
 }
