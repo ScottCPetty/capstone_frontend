@@ -13,7 +13,7 @@ import Account from "./components/Account/Account";
 import Admin from "./components/Admin/Admin";
 import Game from "./components/Game/Game";
 import NotFound from "./components/NotFound";
-import ReactGame from "./components/ReactGame/ReactGame";
+// import ReactGame from "./components/ReactGame/ReactGame";
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
           <Route path="/game" element={<Game loggedIn={loggedIn} />} />
-          <Route path="/reactgame" element={<ReactGame loggedIn={loggedIn} />} />
+          {/* <Route path="/reactgame" element={<ReactGame loggedIn={loggedIn} />} /> */}
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
           <Route
             path="/registration"
