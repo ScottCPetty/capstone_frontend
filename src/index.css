@@ -10,7 +10,7 @@ body {
   text-align: center;
   color: antiquewhite;
   background-color: black;
-  background-image: url("../public/assets/dungeon.jpg");
+  background-image: url("./assets/dungeon.jpg");
   padding: 5px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -186,6 +186,27 @@ button:hover {
 #scoreboard {
   display: flex;
   flex-direction: column;
+}
+
+/* Game */
+.game-header {
+  text-align: center;
+  color: antiquewhite;
+  background-color: rgb(43, 43, 43);
+  padding: 5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-container {
+  background-color: rgba(56, 56, 56, 0.897);
+  display: block;
+  justify-content: center;
+  align-items: center;
+  color: antiquewhite;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid black;
+  box-shadow: 0 10px 12px black;
 }
 
 /* green and yellow text for stat window hp and xp needed  */
