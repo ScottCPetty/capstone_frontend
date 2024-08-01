@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dungeon Crawler Game</title>
-    <link rel="stylesheet" href="game.css" />
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
+    <img src="./warlord-helmet.png" alt="player" class="player-icon" />
     <div class="game-wrapper">
       <div id="left-sidebar">
         <div id="character-portrait">
@@ -20,11 +21,13 @@
           <p>Use W, A, S, D to move.</p>
           <p>Press R to use a potion.</p>
           <p>Press E to attack.</p>
-          <p>Press P to use saved points.</p>
         </div>
       </div>
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
-      <div id="sidebar">
+      <div style="position: relative">
+        <canvas id="gameCanvas"></canvas>
+        <canvas id="playerCanvas"></canvas>
+      </div>
+      <div id="right-sidebar">
         <div id="stats-window">
           <h3>Stats</h3>
           <div id="hp-bar-container">

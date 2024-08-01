@@ -6,9 +6,19 @@ const tilesY = 25;
 canvas.width = tilesX * tileSize;
 canvas.height = tilesY * tileSize;
 
+const playerCanvas = document.getElementById("playerCanvas");
+const playerCtx = playerCanvas.getContext("2d");
+playerCanvas.width = tilesX * tileSize;
+playerCanvas.height = tilesY * tileSize;
+
+const playerIcon = new Image();
+playerIcon.src = "./warlord-helmet.png";
+
 let player = {
   x: 0,
   y: 0,
+  lastX: 0,
+  lastY: 0,
   hp: 100,
   maxHp: 100,
   xp: 0,
@@ -49,7 +59,9 @@ function drawWall(x, y) {
 }
 
 function drawPlayer() {
-  drawTile(player.x, player.y, "blue");
+  playerCtx.clearRect(0, 0, playerCanvas.width, playerCanvas.height);
+  console.log(player.x, player.y);
+  playerCtx.drawImage(playerIcon, player.x * tileSize, player.y * tileSize);
 }
 
 function generateDungeon() {
@@ -64,7 +76,7 @@ function drawDungeon() {
   for (let x = 0; x < tilesX; x++) {
     for (let y = 0; y < tilesY; y++) {
       if (dungeonMap[x][y] === "floor") {
-        drawTile(x, y, "grey");
+        // drawTile(x, y, "grey");
       } else {
         drawWall(x, y);
       }
@@ -218,8 +230,6 @@ function movePlayer(dx, dy) {
       updateGameInfo();
       // Handle moving to the next floor
       // For simplicity, just reset the player's position and generate a new dungeon
-      player.x = 0;
-      player.y = 0;
       generateDungeon();
       drawPlayer();
       levelUpCheck();
