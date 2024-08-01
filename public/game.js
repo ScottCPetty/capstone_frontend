@@ -206,7 +206,7 @@ function updateEnemyInfo() {
     document.getElementById("enemy-hp").innerText = currentEnemy.hp;
     enemyImage.src = currentEnemy.name
       ? `./assets/${currentEnemy.name}.jpg`
-      : "./assets/boss.jpg";
+      : "./assets/Jester.jpg";
     enemyImage.classList.add("glow-red");
     enemyImage.style.display = "block";
   } else {
