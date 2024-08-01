@@ -73,6 +73,48 @@ body {
   margin: 5px;
 }
 
+/* portrait section in Account.jsx */
+.current-portrait {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.current-portrait img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-top: 10px;
+}
+
+.portrait-selection {
+  margin: 20px 0;
+}
+
+.portraits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.portrait {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.3s, border 0.3s;
+}
+
+.portrait:hover {
+  transform: scale(1.1);
+}
+
+.portrait.selected {
+  border: 2px solid #dc3545;
+}
 /* Admin */
 .table-container {
   width: 100%;

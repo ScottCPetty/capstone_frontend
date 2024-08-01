@@ -15,10 +15,10 @@ const accountApi = api.injectEndpoints({
       invalidatesTags: ["Users"],
     }),
     updateUser: builder.mutation({
-      query: ({ userId, ...form }) => ({
+      query: ({ userId, username, password, portrait }) => ({
         url: `/api/user/${userId}`,
         method: "PUT",
-        body: form.form,
+        body: { username, password, portrait },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("Token")}`,

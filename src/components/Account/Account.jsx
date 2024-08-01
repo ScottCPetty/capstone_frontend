@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccountQuery, useUpdateUserMutation } from "./AccountSlice";
 import accountImage from "../../../public/assets/dungeon6.jpg";
+import defaultPortrait from "../../../public/assets/dungeon3.jpg";
 
 export default function Account({ loggedIn }) {
   const [user, setUser] = useState(null);
@@ -8,51 +9,112 @@ export default function Account({ loggedIn }) {
   const [form, setForm] = useState({
     username: "",
     password: "",
+    portrait: defaultPortrait,
   });
-  const { data, isSuccess, refetch } = useAccountQuery();
-  const [updateUser] = useUpdateUserMutation();
+  const { data, isSuccess } = useAccountQuery();
+  const [updateUser, { isLoading, isSuccess: isUpdateSuccess, isError }] =
+    useUpdateUserMutation();
+  const [selectedPortrait, setSelectedPortrait] = useState(defaultPortrait);
+
+  const pPath = "/assets/player-portraits/";
+  const portraits = [
+    "barbarian.jpg",
+    "bard.jpg",
+    "cleric1.jpg",
+    "cleric2.jpg",
+    "druid.jpg",
+    "fighter.jpg",
+    "gamer1.jpg",
+    "gnomeArtificer1.jpg",
+    "gnomeArtificer2.jpg",
+    "gypsy.jpg",
+    "highPriestess.jpg",
+    "Jester.jpg",
+    "knight.jpg",
+    "knight1.jpg",
+    "knight2.jpg",
+    "knightFemale.jpg",
+    "leprechaun.jpg",
+    "merchant.jpg",
+    "monk.jpg",
+    "monk2.jpg",
+    "rogue.jpg",
+    "rogue3.jpg",
+    "sellSword.jpg",
+    "sorceress2.jpg",
+    "spellBlade.jpg",
+    "swashbuckler.jpg",
+    "thief1.jpg",
+    "warriorPrince.jpg",
+    "warriorPrincess.jpg",
+    "warriorPrincess2.jpg",
+    "werewolf.jpg",
+    "witch1.jpg",
+    "witch2.jpg",
+  ];
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (loggedIn && isSuccess && data) {
-        setUser(data);
-        refetch();
-      }
-    };
+    if (loggedIn && isSuccess && data) {
+      console.log("User data fetched:", data); // debug msg
+      setUser(data);
+      setSelectedPortrait(data.portrait || defaultPortrait);
+      setForm({
+        username: data.username || "",
+        password: "",
+        portrait: data.portrait || defaultPortrait,
+      });
+    }
+  }, [data, isSuccess, loggedIn]);
 
-    fetchData();
-  }, [data, isSuccess, loggedIn, refetch, user]);
-
-  useEffect(() => {});
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      console.log("Update successful:", form);
+      setEdit(false);
+      localStorage.setItem("userPortrait", form.portrait);
+    } else if (isError) {
+      console.error("Error updating user");
+    }
+  }, [isUpdateSuccess, isError, form]);
 
   const updateForm = (e) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // console.log(form);
+  };
+
+  const handlePortraitChange = (portrait) => {
+    const fullPortraitPath = `${pPath}${portrait}`;
+    setSelectedPortrait(fullPortraitPath);
+    setForm((prev) => ({
+      ...prev,
+      portrait: fullPortraitPath,
+    }));
   };
 
   const submit = async (e) => {
     e.preventDefault();
     let userId = user.id;
 
-    if (form.password == "") {
+    if (form.password === "") {
       alert("Password Field Left Blank");
       return;
-    } else if (form.username == "") {
+    } else if (form.username === "") {
       form.username = user.username;
     }
-    console.log("This is the form:", form);
+
+    console.log("Form to submit:", form);
 
     try {
-      let success = false;
-      success = await updateUser({ form, userId }).unwrap();
-      console.log("Success response:", success);
-      setEdit(false);
-      refetch();
+      const result = await updateUser({
+        userId,
+        username: form.username,
+        password: form.password,
+        portrait: form.portrait,
+      }).unwrap();
+      console.log("Update result:", result);
     } catch (error) {
-      console.log(error);
+      console.log("Error updating user:", error);
     }
   };
 
@@ -70,6 +132,14 @@ export default function Account({ loggedIn }) {
             <h5>The Souls of the Damned Wander, Like You</h5>
             <div className="account-info">
               <h3>{`Personal High Score: ${user.score}`}</h3>
+            </div>
+            <div className="current-portrait">
+              <h3>Current Adventurer</h3>
+              <img
+                className="portrait"
+                src={selectedPortrait}
+                alt="Selected Portrait"
+              />
             </div>
             {edit ? (
               <div>
@@ -100,6 +170,29 @@ export default function Account({ loggedIn }) {
                       />
                     </div>
                   </div>
+                  <div className="portrait-selection">
+                    <h3>Select Your Portrait</h3>
+                    <div className="portraits">
+                      {portraits.map((portrait) => (
+                        <img
+                          key={portrait}
+                          src={`${pPath}${portrait}`}
+                          alt="Portrait"
+                          className={`portrait ${
+                            selectedPortrait === `${pPath}${portrait}`
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() => handlePortraitChange(portrait)}
+                        />
+                      ))}
+                    </div>
+                    <input
+                      type="hidden"
+                      name="portrait"
+                      value={form.portrait}
+                    />
+                  </div>
                   <div className="user-buttons">
                     <button
                       type="button"
@@ -109,7 +202,7 @@ export default function Account({ loggedIn }) {
                       Cancel
                     </button>
                     <button type="submit" className="btn btn-primary">
-                      Save
+                      {isLoading ? "Saving..." : "Save"}
                     </button>
                   </div>
                 </form>
@@ -129,4 +222,3 @@ export default function Account({ loggedIn }) {
     </div>
   );
 }
-//
