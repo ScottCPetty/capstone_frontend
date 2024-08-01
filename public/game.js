@@ -26,8 +26,9 @@ let player = {
   damageMax: 12,
   dodge: 0,
   savedPoints: 0,
-  floorsPassed: 0,
+  floor: 1,
   score: 0,
+  boss: 1,
 };
 let currentEnemy = null;
 let steps = 0;
@@ -282,7 +283,7 @@ function movePlayer(dx, dy) {
 function nextFloor() {
   addCombatLog("You proceeded to the next floor.");
   player.xp += 50;
-  player.floorsPassed++;
+  player.floor++;
   updateGameInfo();
   player.x = 0;
   player.y = 0;
@@ -321,9 +322,10 @@ function attackBoss() {
 
   if (currentEnemy.hp <= 0) {
     player.xp += currentEnemy.xp;
-    addCombatLog(`You defeated the Boss and gained ${currentEnemy.xp} XP.`);
+    addCombatLog(`You defeated the Boss and gained ${currentEnemy.xp} XP!`);
     currentEnemy = null;
     boss.defeated = true;
+    player.boss++;
     updateEnemyInfo();
     levelUpCheck();
     return;
@@ -520,7 +522,7 @@ function levelUpCheck() {
 }
 
 function updateScore() {
-  player.score = player.level * player.floorsPassed * 10;
+  player.score = player.level * player.floor * player.boss * 10;
   document.getElementById("current-score").innerText = player.score;
   const event = new CustomEvent("scoreUpdated", {
     detail: { score: player.score },
