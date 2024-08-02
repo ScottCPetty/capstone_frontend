@@ -265,6 +265,7 @@ button:hover {
 }
 
 .game-wrapper #stats-window {
+  height: 386px;
   padding: 10px;
   border: 7px groove burlywood;
 }
@@ -285,12 +286,16 @@ button:hover {
   border-radius: 10px;
 }
 
+#enemy-info {
+  display: none;
+}
+
 #combat-log {
   border: 7px groove burlywood;
-  height: 200px;
+  height: 253px;
   padding: 10px;
   width: 200px;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .game-wrapper #log {

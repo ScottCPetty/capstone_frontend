@@ -222,9 +222,6 @@ function updateEnemyInfo() {
     } else {
       enemyImage.src = `./assets/${currentEnemy.name}.jpg`;
     }
-    // enemyImage.src = currentEnemy.name
-    //   ? `./assets/${currentEnemy.name}.jpg`
-    //   : "./assets/Jester.jpg";
     enemyImage.classList.add("glow-red");
     enemyImage.style.display = "block";
   } else {
