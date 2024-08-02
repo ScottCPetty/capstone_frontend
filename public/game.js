@@ -160,6 +160,7 @@ function shuffleArray(array) {
   }
 }
 
+// This function is used in the html
 function increaseStat(stat) {
   if (player.savedPoints > 0) {
     if (stat === "hp") {
