@@ -124,12 +124,12 @@ export default function Account({ loggedIn }) {
         {user && (
           <div>
             <h1>{`Welcome, ${user.username}!`}</h1>
-            <img
+            {/* <img
               className="account-image"
               src={accountImage}
               alt="accountImage"
             />
-            <h5>The Souls of the Damned Wander, Like You</h5>
+            <h5>The Souls of the Damned Wander, Like You</h5> */}
             <div className="account-info">
               <h3>{`Personal High Score: ${user.score}`}</h3>
             </div>
