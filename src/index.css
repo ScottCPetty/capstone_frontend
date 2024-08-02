@@ -176,7 +176,7 @@ button:hover {
 .section {
   margin: 0 10%;
   padding: 3%;
-  background-color: rgba(56, 56, 56, 0.897);
+  background-color: rgba(60, 60, 60, 0.9);
   color: antiquewhite;
   text-align: center;
   border-bottom: 1px solid black;
@@ -189,7 +189,6 @@ button:hover {
 
 /* Game Wrapper */
 .game-wrapper {
-  background-color: rgba(31, 31, 31, 0.027);
   display: flex;
   position: relative;
   flex-direction: row;
@@ -206,7 +205,6 @@ button:hover {
 }
 
 #gameCanvas {
-  border: 1px solid #000;
   background-image: url("../public/game-background-625x625.jpg");
   background-size: 100%;
 }
@@ -223,41 +221,52 @@ button:hover {
   display: flex;
 }
 
-#combat-log {
-  height: 150px;
-  border: 1px solid #000;
-  background-color: #000;
-  padding: 10px;
-  width: 250px;
+/* Game Canvas */
+#gameCanvas {
+  border: 7px groove burlywood;
+  box-shadow: 0 10px 12px black;
+  flex: 1;
+}
+
+/* Left sidebar */
+#left-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  height: 639px;
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+}
+
+#instructions {
+  width: 200px;
+  padding: 5px;
+  color: white;
+}
+
+#left-sidebar,
+#right-sidebar {
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 10px 12px black;
+  flex-shrink: 0;
+  height: 639px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 200px;
+}
+
+/* Right sidebar */
+#right-sidebar {
+  margin-left: 20px;
   overflow-y: auto;
 }
 
-.game-wrapper #log {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.game-wrapper #log li {
-  color: white;
-}
-
-.game-wrapper #log li.new-entry,
-.game-wrapper #log li.new-attack-entry {
-  font-weight: bold;
-}
-
-.game-wrapper #log li.new-attack-entry {
-  color: white;
-}
-
-.game-wrapper #log li:first-child {
-  color: yellow;
-}
-
 .game-wrapper #stats-window {
-  border: 1px solid #000;
   padding: 10px;
+  border: 7px groove burlywood;
 }
 
 .game-wrapper #hp-bar-container {
@@ -276,35 +285,35 @@ button:hover {
   border-radius: 10px;
 }
 
-/* Game Canvas and Sidebars */
-#gameCanvas {
+#combat-log {
   border: 7px groove burlywood;
-  box-shadow: 0 10px 12px black;
-  flex: 1;
-}
-
-#left-sidebar,
-#right-sidebar {
-  background-color: rgba(0, 0, 0, 0.719);
-  box-shadow: 0 10px 12px black;
-  height: 100%;
-  margin-left: 6px;
-  margin-right: 6px;
-  flex-shrink: 0;
-}
-
-#right-sidebar {
-  margin-left: 20px;
-  border: 7px groove burlywood;
+  height: 200px;
+  padding: 10px;
+  width: 200px;
   overflow-y: auto;
 }
 
-/* Left sidebar */
-#left-sidebar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 20px;
+.game-wrapper #log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#log .game-wrapper #log li {
+  color: white;
+}
+
+#log li.new-entry,
+#log li.new-attack-entry {
+  font-weight: bold;
+}
+
+#logli.new-attack-entry {
+  color: white;
+}
+
+#log li:first-child {
+  color: yellow;
 }
 
 /* Portraits */
@@ -313,14 +322,6 @@ button:hover {
   width: 200px;
   height: 200px;
   border: 7px groove burlywood;
-}
-
-/* Instructions */
-#instructions {
-  width: 200px;
-  padding: 5px;
-  background-color: #000;
-  color: white;
 }
 
 /* Keyframes and Animations */
