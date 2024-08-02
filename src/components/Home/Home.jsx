@@ -22,7 +22,7 @@ export default function Home() {
         </h4>
       </div>
       <div className="section" id="scoreboard">
-        <h1>Scoreboard</h1>
+        <h1>Leaderboard</h1>
         <table>
           <thead>
             <tr>
