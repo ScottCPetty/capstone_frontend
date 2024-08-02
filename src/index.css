@@ -18,7 +18,7 @@ body {
 
 .header {
   background-color: black;
-  background-image: url("./assets/dungeon.jpg");
+  background-image: url("../public/assets/dungeon.jpg");
 }
 
 .game-header {
@@ -166,7 +166,7 @@ button:hover {
 
 /* Home */
 .background-container {
-  background-image: url("./public/assets/dungeon3.jpg");
+  background-image: url("../public/assets/dungeon3.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
