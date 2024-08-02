@@ -26,7 +26,7 @@ export default function Login({ setLoggedIn }) {
     try {
       let success = false;
       success = await loginUser(form).unwrap();
-      console.log("Success response:", success);
+      // console.log("Success response:", success);
       if (success) {
         setLoggedIn(true);
         navigate("/account");

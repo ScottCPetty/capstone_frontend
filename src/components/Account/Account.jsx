@@ -55,7 +55,7 @@ export default function Account({ loggedIn }) {
 
   useEffect(() => {
     if (loggedIn && isSuccess && data) {
-      console.log("User data fetched:", data); // debug msg
+      // console.log("User data fetched:", data);
       setUser(data);
       setSelectedPortrait(data.portrait || defaultPortrait);
       setForm({
@@ -68,7 +68,7 @@ export default function Account({ loggedIn }) {
 
   useEffect(() => {
     if (isUpdateSuccess) {
-      console.log("Update successful:", form);
+      // console.log("Update successful:", form);
       setEdit(false);
       localStorage.setItem("userPortrait", form.portrait);
     } else if (isError) {
@@ -103,7 +103,7 @@ export default function Account({ loggedIn }) {
       form.username = user.username;
     }
 
-    console.log("Form to submit:", form);
+    // console.log("Form to submit:", form);
 
     try {
       const result = await updateUser({
@@ -112,7 +112,7 @@ export default function Account({ loggedIn }) {
         password: form.password,
         portrait: form.portrait,
       }).unwrap();
-      console.log("Update result:", result);
+      // console.log("Update result:", result);
     } catch (error) {
       console.log("Error updating user:", error);
     }
