@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccountQuery, useUpdateUserMutation } from "./AccountSlice";
-import accountImage from "../../../public/assets/dungeon6.jpg";
+// import accountImage from "../../../public/assets/dungeon6.jpg";
 import defaultPortrait from "../../../public/assets/dungeon3.jpg";
 
 export default function Account({ loggedIn }) {
