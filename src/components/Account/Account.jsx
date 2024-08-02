@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccountQuery, useUpdateUserMutation } from "./AccountSlice";
-import accountImage from "../../../public/assets/dungeon6.jpg";
+// import accountImage from "../../../public/assets/dungeon6.jpg";
 import defaultPortrait from "../../../public/assets/dungeon3.jpg";
 
 export default function Account({ loggedIn }) {
@@ -55,7 +55,7 @@ export default function Account({ loggedIn }) {
 
   useEffect(() => {
     if (loggedIn && isSuccess && data) {
-      console.log("User data fetched:", data); // debug msg
+      // console.log("User data fetched:", data);
       setUser(data);
       setSelectedPortrait(data.portrait || defaultPortrait);
       setForm({
@@ -68,7 +68,7 @@ export default function Account({ loggedIn }) {
 
   useEffect(() => {
     if (isUpdateSuccess) {
-      console.log("Update successful:", form);
+      // console.log("Update successful:", form);
       setEdit(false);
       localStorage.setItem("userPortrait", form.portrait);
     } else if (isError) {
@@ -103,7 +103,7 @@ export default function Account({ loggedIn }) {
       form.username = user.username;
     }
 
-    console.log("Form to submit:", form);
+    // console.log("Form to submit:", form);
 
     try {
       const result = await updateUser({
@@ -112,7 +112,7 @@ export default function Account({ loggedIn }) {
         password: form.password,
         portrait: form.portrait,
       }).unwrap();
-      console.log("Update result:", result);
+      // console.log("Update result:", result);
     } catch (error) {
       console.log("Error updating user:", error);
     }
@@ -124,12 +124,12 @@ export default function Account({ loggedIn }) {
         {user && (
           <div>
             <h1>{`Welcome, ${user.username}!`}</h1>
-            <img
+            {/* <img
               className="account-image"
               src={accountImage}
               alt="accountImage"
             />
-            <h5>The Souls of the Damned Wander, Like You</h5>
+            <h5>The Souls of the Damned Wander, Like You</h5> */}
             <div className="account-info">
               <h3>{`Personal High Score: ${user.score}`}</h3>
             </div>

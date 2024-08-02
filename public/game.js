@@ -265,6 +265,13 @@ function addCombatLog(message) {
   attackMade = false;
 }
 
+function isAdjacent(x1, y1, x2, y2) {
+  return (
+    (x1 === x2 && Math.abs(y1 - y2) === 1) ||
+    (y1 === y2 && Math.abs(x1 - x2) === 1)
+  );
+}
+
 function movePlayer(dx, dy) {
   if (currentEnemy) return;
   let newX = player.x + dx;
@@ -284,14 +291,13 @@ function movePlayer(dx, dy) {
         "You found the entrance to the next floor! Press E to leave this floor."
       );
     }
-    if (newX === boss.x && newY === boss.y && !boss.defeated) {
+    if (isAdjacent(newX, newY, boss.x, boss.y) && !boss.defeated) {
       addCombatLog("You encountered the boss!");
       encounterBoss();
     } else {
       checkEncounter();
     }
     if (newX !== boss.x && newY !== boss.y) moveBoss();
-    // moveBoss();
     drawDungeon();
     drawPlayer();
     drawBoss();

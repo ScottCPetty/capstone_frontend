@@ -13,7 +13,7 @@ const Game = () => {
       if (userData && newScore > userData.score) {
         try {
           await updateUser({ score: newScore }).unwrap();
-          console.log("High score updated!");
+          // console.log("High score updated!");
           await refetch();
         } catch (error) {
           console.error("Failed to update high score:", error);
