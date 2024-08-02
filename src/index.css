@@ -223,21 +223,13 @@ button:hover {
   display: flex;
 }
 
-.game-wrapper #right-sidebar,
-.game-wrapper #combat-log {
-  overflow-y: auto;
-}
-
-.game-wrapper #right-sidebar {
-  margin-left: 20px;
-}
-
-.game-wrapper #combat-log {
+#combat-log {
   height: 150px;
   border: 1px solid #000;
   background-color: #000;
   padding: 10px;
   width: 250px;
+  overflow-y: auto;
 }
 
 .game-wrapper #log {
@@ -301,15 +293,18 @@ button:hover {
   flex-shrink: 0;
 }
 
+#right-sidebar {
+  margin-left: 20px;
+  border: 7px groove burlywood;
+  overflow-y: auto;
+}
+
+/* Left sidebar */
 #left-sidebar {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-right: 20px;
-}
-
-#right-sidebar {
-  border: 7px groove burlywood;
 }
 
 /* Portraits */
@@ -320,12 +315,9 @@ button:hover {
   border: 7px groove burlywood;
 }
 
-#enemy-portrait {
-  margin: 20px 0;
-}
-
 /* Instructions */
 #instructions {
+  width: 200px;
   padding: 5px;
   background-color: #000;
   color: white;
