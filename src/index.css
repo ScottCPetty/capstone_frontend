@@ -241,6 +241,8 @@ button:hover {
 }
 
 #instructions {
+  border: 7px groove burlywood;
+  height: 239px;
   width: 200px;
   padding: 5px;
   color: white;
