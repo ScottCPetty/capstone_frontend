@@ -356,3 +356,14 @@ button:hover {
 .yellow-text {
   color: rgb(234, 249, 64);
 }
+
+.increase-stat-btn {
+  display: none;
+  margin-left: 5px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.increase-stat-btn.show {
+  display: inline;
+}
