@@ -2,7 +2,7 @@ https://dungeondelvegame.netlify.app/
 
 # Overview
 This frontend was created was created by Patrick Williams, James Pope, and Scott Petty in two weeks for our Fullstack Academy capstone project. 
-It is single-page application made in React that allows users to:
+It is a single-page application made in React that allows users to:
 - play a game we wrote in HTML and JavaScript,
 - register and login,
 - edit their information, and
