@@ -24,13 +24,13 @@ const Game = () => {
   );
 
   useEffect(() => {
-    fetch("/game.html")
+    fetch("/game_html.html")
       .then((response) => response.text())
       .then((data) => {
         const container = document.getElementById("game-container");
         container.innerHTML = data;
         const script = document.createElement("script");
-        script.src = "/game.js";
+        script.src = "/game_js.js";
         script.async = true;
         container.appendChild(script);
       });
