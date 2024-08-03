@@ -21,7 +21,6 @@ export default function Register({ setLoggedIn }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    // console.log("This is the form:", form);
     setRegisterError(false);
     try {
       let success = false;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccountQuery, useUpdateUserMutation } from "./AccountSlice";
 // import accountImage from "../../../public/assets/dungeon6.jpg";
-import defaultPortrait from "../../../public/assets/dungeon3.jpg";
+// import defaultPortrait from "../../../public/assets/dungeon3.jpg";
 
 export default function Account({ loggedIn }) {
   const [user, setUser] = useState(null);
@@ -9,66 +9,67 @@ export default function Account({ loggedIn }) {
   const [form, setForm] = useState({
     username: "",
     password: "",
-    portrait: defaultPortrait,
+    portrait: "",
   });
   const { data, isSuccess } = useAccountQuery();
   const [updateUser, { isLoading, isSuccess: isUpdateSuccess, isError }] =
     useUpdateUserMutation();
-  const [selectedPortrait, setSelectedPortrait] = useState(defaultPortrait);
+  const [selectedPortrait, setSelectedPortrait] = useState("");
 
-  const pPath = "/assets/player-portraits/";
   const portraits = [
-    "barbarian.jpg",
-    "bard.jpg",
-    "cleric1.jpg",
-    "cleric2.jpg",
-    "druid.jpg",
-    "fighter.jpg",
-    "gamer1.jpg",
-    "gnomeArtificer1.jpg",
-    "gnomeArtificer2.jpg",
-    "gypsy.jpg",
-    "highPriestess.jpg",
-    "Jester.jpg",
-    "knight.jpg",
-    "knight1.jpg",
-    "knight2.jpg",
-    "knightFemale.jpg",
-    "leprechaun.jpg",
-    "merchant.jpg",
-    "monk.jpg",
-    "monk2.jpg",
-    "rogue.jpg",
-    "rogue3.jpg",
-    "sellSword.jpg",
-    "sorceress2.jpg",
-    "spellBlade.jpg",
-    "swashbuckler.jpg",
-    "thief1.jpg",
-    "warriorPrince.jpg",
-    "warriorPrincess.jpg",
-    "warriorPrincess2.jpg",
-    "werewolf.jpg",
-    "witch1.jpg",
-    "witch2.jpg",
+    "/assets/player-portraits/barbarian.jpg",
+    "/assets/player-portraits/bard.jpg",
+    "/assets/player-portraits/cleric1.jpg",
+    "/assets/player-portraits/cleric2.jpg",
+    "/assets/player-portraits/druid.jpg",
+    "/assets/player-portraits/fighter.jpg",
+    "/assets/player-portraits/gamer1.jpg",
+    "/assets/player-portraits/gnomeArtificer1.jpg",
+    "/assets/player-portraits/gnomeArtificer2.jpg",
+    "/assets/player-portraits/gypsy.jpg",
+    "/assets/player-portraits/highPriestess.jpg",
+    "/assets/player-portraits/Jester.jpg",
+    "/assets/player-portraits/knight.jpg",
+    "/assets/player-portraits/knight1.jpg",
+    "/assets/player-portraits/knight2.jpg",
+    "/assets/player-portraits/knightFemale.jpg",
+    "/assets/player-portraits/leprechaun.jpg",
+    "/assets/player-portraits/merchant.jpg",
+    "/assets/player-portraits/monk.jpg",
+    "/assets/player-portraits/monk2.jpg",
+    "/assets/player-portraits/rogue.jpg",
+    "/assets/player-portraits/rogue3.jpg",
+    "/assets/player-portraits/sellSword.jpg",
+    "/assets/player-portraits/sorceress2.jpg",
+    "/assets/player-portraits/spellBlade.jpg",
+    "/assets/player-portraits/swashbuckler.jpg",
+    "/assets/player-portraits/thief1.jpg",
+    "/assets/player-portraits/warriorPrince.jpg",
+    "/assets/player-portraits/warriorPrincess.jpg",
+    "/assets/player-portraits/warriorPrincess2.jpg",
+    "/assets/player-portraits/werewolf.jpg",
+    "/assets/player-portraits/witch1.jpg",
+    "/assets/player-portraits/witch2.jpg",
   ];
 
   useEffect(() => {
     if (loggedIn && isSuccess && data) {
-      // console.log("User data fetched:", data);
+      console.log("User data fetched:", data);
       setUser(data);
-      setSelectedPortrait(data.portrait || defaultPortrait);
+      setSelectedPortrait(
+        data.portrait || "/assets/player-portraits/gamer1.jpg"
+      );
       setForm({
         username: data.username || "",
         password: "",
-        portrait: data.portrait || defaultPortrait,
+        portrait: data.portrait || "/assets/player-portraits/gamer1.jpg",
       });
     }
   }, [data, isSuccess, loggedIn]);
 
   useEffect(() => {
     if (isUpdateSuccess) {
-      // console.log("Update successful:", form);
+      console.log("Update successful:", form);
       setEdit(false);
       localStorage.setItem("userPortrait", form.portrait);
     } else if (isError) {
@@ -83,14 +84,13 @@ export default function Account({ loggedIn }) {
     }));
   };
 
-  const handlePortraitChange = (portrait) => {
-    const fullPortraitPath = `${pPath}${portrait}`;
-    setSelectedPortrait(fullPortraitPath);
-    setForm((prev) => ({
-      ...prev,
-      portrait: fullPortraitPath,
-    }));
-  };
+  // const handlePortraitChange = (portrait) => {
+  //   setSelectedPortrait(portrait);
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     portrait: portrait,
+  //   }));
+  // };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ export default function Account({ loggedIn }) {
       form.username = user.username;
     }
 
-    // console.log("Form to submit:", form);
+    console.log("Form to submit:", form);
 
     try {
       const result = await updateUser({
@@ -112,7 +112,7 @@ export default function Account({ loggedIn }) {
         password: form.password,
         portrait: form.portrait,
       }).unwrap();
-      // console.log("Update result:", result);
+      console.log("Update result:", result);
     } catch (error) {
       console.log("Error updating user:", error);
     }
@@ -176,14 +176,20 @@ export default function Account({ loggedIn }) {
                       {portraits.map((portrait) => (
                         <img
                           key={portrait}
-                          src={`${pPath}${portrait}`}
+                          src={portrait}
                           alt="Portrait"
                           className={`portrait ${
-                            selectedPortrait === `${pPath}${portrait}`
+                            selectedPortrait === portrait
                               ? "selected"
-                              : ""
+                              : "/assets/gamer1.jpg"
                           }`}
-                          onClick={() => handlePortraitChange(portrait)}
+                          onClick={() => {
+                            setSelectedPortrait(portrait);
+                            setForm((prev) => ({
+                              ...prev,
+                              portrait: portrait,
+                            }));
+                          }}
                         />
                       ))}
                     </div>

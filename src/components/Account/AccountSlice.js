@@ -36,7 +36,12 @@ const accountSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(api.endpoints.account.matchFulfilled);
+    builder.addMatcher(
+      api.endpoints.account.matchFulfilled,
+      (state, { payload }) => {
+        state.user = payload;
+      }
+    );
   },
 });
 
