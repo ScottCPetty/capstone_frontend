@@ -16,9 +16,8 @@ export default function Home() {
           Flytrap. Many heedless seekers ignore the warnings, drawn inexorably
           deeper into its clutches, never to return. Those fortunate few who
           escape speak of a realm of madness—a labyrinth of twisting, cracked
-          walls and impossible rooms. Here, the animated corpses of the lost
-          wander endlessly, puppeteered by the malevolent roots that twist and
-          warp the horrid place...
+          walls and impossible rooms. Here, the uncanny creatures of the deep
+          dwell and hunger at the chance to chew your bones clean...
         </h4>
       </div>
       <div className="section" id="scoreboard">

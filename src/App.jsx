@@ -15,7 +15,6 @@ import Game from "./components/Game/Game";
 import NotFound from "./components/NotFound";
 // import ReactGame from "./components/ReactGame/ReactGame";
 
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(
     window.sessionStorage.getItem("Token") ? true : false
@@ -23,9 +22,9 @@ function App() {
 
   return (
     <>
-      <div className="header">
+      <header className="header">
         <h1>Dungeon Delve</h1>
-      </div>
+      </header>
       <Router>
         <Navigation loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         <Routes>
@@ -42,6 +41,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
+      <footer className="header">
+        <h4>Created by: Scott Petty, James Pope, & Patrick Williams</h4>
+      </footer>
     </>
   );
 }
