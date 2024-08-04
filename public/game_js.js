@@ -36,11 +36,11 @@ let player = {
   hp: 100,
   maxHp: 100,
   xp: 0,
-  level: 1,
+  level: 20,
   potions: 0,
   damageMin: 2,
   damageMax: 12,
-  dodge: 0,
+  dodge: 100,
   savedPoints: 0,
   floor: 1,
   score: 0,
@@ -348,8 +348,10 @@ function attackBoss() {
     currentEnemy = null;
     boss.defeated = true;
     player.boss++;
+    updateGameInfo();
     updateEnemyInfo();
     levelUpCheck();
+    updateScore();
     return;
   }
 
