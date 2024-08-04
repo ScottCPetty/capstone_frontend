@@ -36,7 +36,7 @@ let player = {
   hp: 100,
   maxHp: 100,
   xp: 0,
-  level: 0,
+  level: 1,
   potions: 0,
   damageMin: 2,
   damageMax: 12,
