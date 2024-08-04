@@ -303,7 +303,8 @@ button:hover {
   height: 253px;
   padding: 10px;
   width: 200px;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .game-wrapper #log {

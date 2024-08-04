@@ -34,6 +34,7 @@ const Admin = (isAdmin) => {
                 {users &&
                   users
                     .filter((user) => user.username !== "admin")
+                    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort users by createdAt date
                     .map((user) => (
                       <tr key={user.id}>
                         <td>{user.id}</td>
