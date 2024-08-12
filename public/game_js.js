@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Canvas Constants
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const tileSize = 25;
@@ -24,6 +25,9 @@ playerIcon.src = "./warlord-helmet.png";
 
 const bossIcon = new Image();
 bossIcon.src = "./crowned-skull.png";
+
+const potionIcon = new Image();
+potionIcon.src = "./heart-bottle.png";
 
 const exitIcon = new Image();
 exitIcon.src = "./stairs-25.png";
@@ -74,7 +78,10 @@ let boss = {
 const enemiesList = Object.keys(enemyAttributes);
 let dungeonMap = [];
 let entranceX, entranceY;
+let potionLocations = [];
+let potionInit = false;
 
+// Render Functions
 function drawWall(x, y) {
   ctx.fillStyle = "black";
   ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -90,10 +97,46 @@ function drawBoss() {
   }
 }
 
+function drawPotions() {
+  let potions = 0;
+  let potionX, potionY;
+  if (potionLocations.length === 0 && potionInit === false) {
+    while (potions < 10) {
+      potionX = Math.floor(Math.random() * tilesX);
+      potionY = Math.floor(Math.random() * tilesX);
+      if (dungeonMap[potionX][potionY] === "floor") {
+        potionLocations.push({ x: potionX, y: potionY });
+        potions++;
+      }
+    }
+    potionInit = true;
+    // console.log(potionLocations);
+  }
+  potionLocations.forEach((potionLocation) => {
+    playerCtx.drawImage(
+      potionIcon,
+      potionLocation.x * tileSize,
+      potionLocation.y * tileSize
+    );
+  });
+}
+
+function placeEntrance() {
+  let placed = false;
+  while (!placed) {
+    entranceX = Math.floor(Math.random() * tilesX);
+    entranceY = Math.floor(Math.random() * tilesY);
+    if (dungeonMap[entranceX][entranceY] === "floor") {
+      placed = true;
+    }
+  }
+}
+
 function generateDungeon() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   dungeonMap = Array.from({ length: tilesX }, () => Array(tilesY).fill("wall"));
   generateMaze(player.x, player.y);
+  drawPotions();
   placeEntrance();
   drawDungeon();
 }
@@ -138,17 +181,6 @@ function generateMaze(cx, cy) {
       dungeonMap[cx + dx][cy + dy] = "floor";
       dungeonMap[nx][ny] = "floor";
       generateMaze(nx, ny);
-    }
-  }
-}
-
-function placeEntrance() {
-  let placed = false;
-  while (!placed) {
-    entranceX = Math.floor(Math.random() * tilesX);
-    entranceY = Math.floor(Math.random() * tilesY);
-    if (dungeonMap[entranceX][entranceY] === "floor") {
-      placed = true;
     }
   }
 }
@@ -298,6 +330,8 @@ function movePlayer(dx, dy) {
     drawDungeon();
     drawPlayer();
     drawBoss();
+    findPotion();
+    drawPotions();
     updateGameInfo();
   }
 }
@@ -309,6 +343,7 @@ function nextFloor() {
   updateGameInfo();
   player.x = 0;
   player.y = 0;
+  potionLocations = [];
   generateDungeon();
   drawPlayer();
   boss = {
@@ -322,7 +357,9 @@ function nextFloor() {
     direction: 0,
     lastDirection: null,
   };
+  potionInit = false;
   drawBoss();
+  drawPotions();
   levelUpCheck();
   updateScore();
 }
@@ -436,8 +473,6 @@ function checkEncounter() {
     let encounterChance = Math.random();
     if (encounterChance < 0.5) {
       encounterEnemy();
-    } else {
-      findPotion();
     }
     steps = 0;
   }
@@ -463,9 +498,16 @@ function encounterEnemy() {
 }
 
 function findPotion() {
-  player.potions++;
-  addCombatLog("You found a potion!");
-  updateGameInfo();
+  const foundPotion = potionLocations.findIndex(
+    (potion) => potion.x === player.x && potion.y === player.y
+  );
+  if (foundPotion !== -1) {
+    potionLocations.splice(foundPotion, 1);
+
+    player.potions++;
+    addCombatLog("You found a potion!");
+    updateGameInfo();
+  }
 }
 
 function usePotion() {
@@ -572,6 +614,7 @@ function resetGame() {
   generateDungeon();
   drawPlayer();
   drawBoss();
+  drawPotions();
   updateGameInfo();
   updateEnemyInfo();
   document.getElementById("log").innerHTML = "";
@@ -597,5 +640,6 @@ document.addEventListener("keydown", (e) => {
 generateDungeon();
 drawPlayer();
 drawBoss();
+drawPotions();
 updateGameInfo();
 updateEnemyInfo();
