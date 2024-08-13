@@ -32,6 +32,7 @@ potionIcon.src = "./heart-bottle.png";
 const exitIcon = new Image();
 exitIcon.src = "./stairs-25.png";
 
+// Game Constants
 let player = {
   x: 0,
   y: 0,
@@ -75,13 +76,13 @@ let boss = {
   lastDirection: null,
 };
 
+// Render Functions
 const enemiesList = Object.keys(enemyAttributes);
 let dungeonMap = [];
 let entranceX, entranceY;
 let potionLocations = [];
 let potionInit = false;
 
-// Render Functions
 function drawWall(x, y) {
   ctx.fillStyle = "black";
   ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -198,10 +199,11 @@ function increaseStat(stat) {
     if (stat === "hp") {
       player.maxHp += 5;
       player.hp += 5;
+      player.hp = player.maxHp;
     } else if (stat === "attack") {
       player.damageMin++;
       player.damageMax++;
-    } else if (stat === "dodge") {
+    } else if (stat === "dodge" && player.dodge < 60) {
       player.dodge += 5;
     }
     player.savedPoints--;
@@ -211,7 +213,19 @@ function increaseStat(stat) {
 }
 
 function updateStatButtons() {
-  const buttons = document.querySelectorAll(".increase-stat-btn");
+  const dodgeButton = document.getElementById("increase-dodge");
+  const buttons = document.querySelectorAll(
+    ".increase-stat-btn:not(#increase-dodge"
+  );
+
+  if (dodgeButton) {
+    if (player.dodge >= 60 || player.savedPoints <= 0) {
+      dodgeButton.classList.remove("show");
+    } else {
+      dodgeButton.classList.add("show");
+    }
+  }
+
   buttons.forEach((button) => {
     if (player.savedPoints > 0) {
       button.classList.add("show");
@@ -635,6 +649,8 @@ document.addEventListener("keydown", (e) => {
       attackEnemy();
     }
   }
+  // Cheats
+  // if (e.key === "1") player.savedPoints++;
 });
 
 generateDungeon();
