@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useGameQuery, useScoreMutation } from "./GameSlice";
 
 const Game = () => {
@@ -29,10 +29,7 @@ const Game = () => {
       .then((data) => {
         const container = document.getElementById("game-container");
         container.innerHTML = data;
-        const script = document.createElement("script");
-        script.src = "/game_js.js";
-        script.async = true;
-        container.appendChild(script);
+        dungeonDelve();
       });
   }, []);
 
