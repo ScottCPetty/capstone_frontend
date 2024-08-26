@@ -55,7 +55,7 @@ export default function Account({ loggedIn }) {
 
   useEffect(() => {
     if (loggedIn && isSuccess && data) {
-      console.log("User data fetched:", data);
+      // console.log("User data fetched:", data);
       setUser(data);
       setSelectedPortrait(data.portrait || defaultPortrait);
       setForm({
